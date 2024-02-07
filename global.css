@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+html, body, #app {
+    height: 100%;
+    margin: 0;
+}
+
+p, div, span, select, input {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+                 Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.ol-zoom {
+    left: unset;
+    top: 100px;
+    right: 15px;
+}
+
+.ol-zoomslider {
+    left: unset;
+    top: 170px;
+    right: 15px;
+}
+
+.ol-touch .ol-zoomslider {
+    top: 190px;
+}
+
+.ol-scale-line {
+    left: 15px;
+    bottom: 40px;
+}
+
+.ol-mouse-position {
+    top: unset;
+    bottom: 40px;
+    right: 15px;
+}
+
+.vdp-datepicker__calendar .cell.selected,
+.vdp-datepicker__calendar .cell.selected:hover {
+    background-color: #1773B9 !important;
+    color: white;
+}
+
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+    border: 1px solid #1773B9 !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .ol-zoom,
+    .ol-zoomslider,
+    .ol-mouse-position,
+    .ol-scale-line {
+        display: none;
+    }
+}

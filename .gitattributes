@@ -1,0 +1,3 @@
+data/dose_rates/metadata.json -diff
+data/dose_rates/time_series/**/*.json -diff
+
