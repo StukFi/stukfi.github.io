@@ -46,7 +46,7 @@
 								
 								<fieldset>
 									<label for="input_laser_wavelength_0">Lasersäteilyn aallonpituus:</label>
-									<input type="number" min="180" max="100000" name="input_laser_wavelength_0" id="input_laser_wavelength_0"><div id="unit_laser_wavelength_0" class="unit"> nm</div>
+									<input type="number" min="400" max="100000" name="input_laser_wavelength_0" id="input_laser_wavelength_0"><div id="unit_laser_wavelength_0" class="unit"> nm</div>
 									<div id="print_laser_wavelength_0"></div>
 									<p>Ohje: Lasersäteilyn aallonpituus on usein ilmoitettu laitteen käyttöohjekirjassa. Tieto voi käydä ilmi myös laitteen varoitusmerkinnöistä.</p>
 								</fieldset>
@@ -620,7 +620,7 @@
 						if ($(this).val() > max || $(this).val() < min) {
 							$(this).css("background-color", "lavenderblush");
 							proceed = false;
-							alert("Aallonpituuden tulee olla välillä 180-100 000 nm");
+							alert("Aallonpituuden tulee olla välillä 400-100 000 nm. UV-säteilyä tuottavien lasereiden tapauksessa ole yhteydessä STUKiin käytön vaatimusten selvittämiseksi.");
 							return false;
 						} else {
 							$(this).css("background-color", "white");
@@ -679,7 +679,7 @@
 				e.preventDefault();
 			}
 			$(target).css({visibility: "visible", height: "auto"});
-			// disable mousewhell during horizontal scroll
+			// disable mousewheel during horizontal scroll
 			document.addEventListener("mousewheel", disabledScrollHandler, {passive: false});
 			if (window.pageYOffset > 0) {
 				$("body").scrollTo(cur, 250);
@@ -1020,8 +1020,8 @@
 						break;
 					}
 				}
-				// STUK S/11/2021 comparison
-				if (t >= 0.25) {
+				// STUK S/11/202X comparison
+				if (wavelength >= 400 && t >= 0.25) {
 					var expLimitSTUK, expLimitUnitSTUK;
 					if (t < 10) {
 						expLimitSTUK = 500 * Math.pow(10, -3) * t / (Math.PI * Math.pow(3.5 * Math.pow(10, -3), 2) / 4);
@@ -1138,11 +1138,22 @@
 			}
 			calcExpLimit(t, unit) {
 				if (unit == "ms") {
-					var expLimit = 20000 * Math.pow(t * Math.pow(10, -3), 0.25);
+					if (t < 10000) {
+						var expLimit = 300000 * Math.pow(t * Math.pow(10, -3), 0.25);
+						var expLimitUnit = "J/m2";
+						} else {
+							var expLimit = Infinity;
+							var expLimitUnit = "";
+						}
 				} else if (unit == "s") {
-					var expLimit = 20000 * Math.pow(t, 0.25);
+					if (t < 10) {
+						var expLimit = 300000 * Math.pow(t, 0.25);
+						var expLimitUnit = "J/m2";
+					} else {
+						var expLimit = Infinity;
+						var expLimitUnit = "";
+					}
 				}
-				var expLimitUnit = "J/m2";
 				return {
 					value: expLimit,
 					unit: expLimitUnit
@@ -2229,7 +2240,7 @@
 				if (WL.lasers[index].spotW !== undefined && WL.lasers[index].spotH !== undefined) {
 					$("#laser_tryit_spotsize").hide();
 					$("#input_laser_tryit_spotsize").hide();
-					$("#unit_laser_tryit_spotsize").html(WL.lasers[index].spotW.replace(".",",")+" "+WL.lasers[index].spotWUnit+" * "+WL.lasers[index].spotH.replace(".",",")+" "+WL.lasers[0].spotHUnit);
+					$("#unit_laser_tryit_spotsize").html(WL.lasers[index].spotW.replace(".",",")+" "+WL.lasers[index].spotWUnit+" * "+WL.lasers[index].spotH.replace(".",",")+" "+WL.lasers[index].spotHUnit);
 				} else if (WL.lasers[index].spotMax !== undefined) {
 					$("#laser_tryit_spotsize").show();
 					$("#input_laser_tryit_spotsize").show();
