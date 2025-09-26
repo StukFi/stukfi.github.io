@@ -1,0 +1,2387 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<title>STUK - Altistusarviolaskuri</title>
+	<link rel="stylesheet" href="form-v0.9.css" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.3/jquery.scrollTo.min.js"></script>
+
+	<body>
+		<div id="wrapper">
+			<div id="mask">
+				<div id="page1" class="item">
+					<div class="container">
+						<div id="device_select">
+							<h1>Laitetyypin valinta</h1>
+							<p>Haluan laskea altistusarvion seuraavalle laitetyypille:</p>
+							<fieldset>
+								<label for="radio_laser"><input type="radio" id="radio_laser" name="device_select"> Laserlaite</label>
+								<label for="radio_ipl"><input type="radio" id="radio_ipl" name="device_select"> Valoimpulssilaite</label>
+								<label for="radio_usonic"><input type="radio" id="radio_usonic" name="device_select"> Ultraäänilaite</label>
+							</fieldset>
+						</div>
+						<fieldset class="buttons">
+							<button type="button" name="Sulje laskuri" id="exit" onclick="location.href='https://www.stuk.fi/'">Sulje laskuri</button>
+							<button type="button" name="Seuraava sivu" class="page" id="page1-2" onclick="navigate(this.id)">Seuraava sivu</button>
+						</fieldset>
+					</div>
+				</div>	
+				<div id="page2" class="item">
+					<div class="container">
+						<div id="laser_info">
+							<h1>Laserlaitteen tiedot</h1>
+							<p>Täytä kaikki näkyvät kentät altistusarvion laskemiseksi</p>
+							<fieldset>
+								<label for="input_laser_model">Laitteen nimi:</label>
+								<input class="unitless" type="text" name="input_laser_model" id="input_laser_model">
+								<div id="print_laser_model"></div>
+							</fieldset>
+							
+							<div class="laserWL_placeholder">
+								
+								<hr>
+								
+								<fieldset>
+									<label for="input_laser_wavelength_0">Lasersäteilyn aallonpituus:</label>
+									<input type="number" min="400" max="100000" name="input_laser_wavelength_0" id="input_laser_wavelength_0"><div id="unit_laser_wavelength_0" class="unit"> nm</div>
+									<div id="print_laser_wavelength_0"></div>
+									<p>Ohje: Lasersäteilyn aallonpituus on usein ilmoitettu laitteen käyttöohjekirjassa. Tieto voi käydä ilmi myös laitteen varoitusmerkinnöistä.</p>
+								</fieldset>
+								
+								<fieldset>
+									<b><span>Valitse:</span></b>
+									<label class="no_bold" for="toggleLaser_CW_0"><input type="radio" id="toggleLaser_CW_0" name="laser_mode_0" onchange="toggleLaserMode_Changed(this)"> Laite tuottaa jatkuvaa lasersäteilyä</label>
+									<label class="no_bold" for="toggleLaser_pulsed_0"><input type="radio" id="toggleLaser_pulsed_0" name="laser_mode_0" onchange="toggleLaserMode_Changed(this)"> Laite tuottaa pulssimuotoista lasersäteilyä</label>
+									<p>Ohje: Valinta avaa lomakekentät täytettäviksi.</p>
+								</fieldset>
+								
+								<div id="laser_power_0" class="hidden">
+									<fieldset>
+										<label for="input_laser_power_0">Säteilyteho:</label>
+										<input type="text" name="input_laser_power_0" id="input_laser_power_0"><select class="unit" name="unit_laser_power_0" id="unit_laser_power_0" onchange="laserUnit_Changed(this)" aria-label="Säteilytehon yksikkö">
+											<option value="Wcm2">W/cm2</option>
+											<option value="W">W</option>
+											<option value="mW">mW</option>
+										</select>
+										<p>Ohje: Tieto säteilytehosta löytyy usein laitteen käyttöohjekirjasta. Se saattaa käydä ilmi myös laitteen merkinnöistä tai käyttöliittymästä. Jos säteilyteho on säädettävä, ilmoita säätöalue (esim. 1-10 W). Valitse oikea yksikkö pudotusvalikosta. Mittayksikön valinta saattaa avata lisäkenttiä täytettäviksi.</p>
+										<div id="print_laser_power_0"></div>
+									</fieldset>
+								</div>
+								
+								<div id="laser_energy_0" class="hidden">
+									<fieldset>
+										<label for="input_laser_energy_0">Pulssienergia tai säteilyteho:</label>
+										<input type="text" name="input_laser_energy_0" id="input_laser_energy_0"><select class="unit" name="unit_laser_energy_0" id="unit_laser_energy_0" onchange="laserUnit_Changed(this)" aria-label="Pulssienergian tai säteilytehon yksikkö">
+											<option value="Jcm2">J/cm2</option>
+											<option value="J">J</option>
+											<option value="mJ">mJ</option>
+											<option value="Wcm2">W/cm2</option>
+											<option value="W">W</option>
+											<option value="mW">mW</option>
+										</select>
+										<p>Ohje: Tieto pulssienergiasta löytyy usein laitteen käyttöohjekirjasta. Se saattaa käydä ilmi myös laitteen merkinnöistä tai käyttöliittymästä. Jos pulssienergia on säädettävä, ilmoita säätöalue (esim. 1-10 J). Valitse oikea yksikkö pudotusvalikosta. Mittayksikön valinta saattaa avata lisäkenttiä täytettäviksi.</p>
+										<div id="print_laser_energy_0"></div>
+									</fieldset>
+									<fieldset>
+										<label for="input_laser_pulsewidth_0">Pulssinpituus:</label>
+										<input type="text" name="input_laser_pulsewidth_0" id="input_laser_pulsewidth_0"><select class="unit" name="unit_laser_pulsewidth_0" id="unit_laser_pulsewidth_0" aria-label="Pulssinpituuden yksikkö">
+											<option value="s">s</option>
+											<option value="ms">ms</option>
+											<option value="us">&micro;s</option>
+											<option value="ns">ns</option>
+										</select>
+										<p>Ohje: Pulssinpituus on usein ilmoitettu laitteen käyttöohjekirjassa. Jos pulssinpituus on säädettävä, ilmoita säätöalue (esim. 50-300 ms). Valitse oikea yksikkö pudotusvalikosta.</p>
+										<div id="print_laser_pulsewidth_0"></div>
+									</fieldset>
+								</div>
+								
+								<div id="laser_applicator_shape_0" class="hidden">
+									<fieldset>
+										<b><span>Säteen tai valoaukon muoto:</span></b>
+										<label class="no_bold" for="toggleLaser_applicator_round_0"><input type="radio" id="toggleLaser_applicator_round_0" name="laser_applicator_shape_0" onchange="toggleLaserShape_Changed(this.id)"> Pyöreä</label>
+										<label class="no_bold" for="toggleLaser_applicator_rectangle_0"><input type="radio" id="toggleLaser_applicator_rectangle_0" name="laser_applicator_shape_0" onchange="toggleLaserShape_Changed(this.id)"> Suorakulmio</label>
+										<p>Ohje: Valinta avaa lomakekentät täytettäviksi.</p>
+									</fieldset>
+									
+									<div id="laser_applicator_round_0" class="hidden">
+										<fieldset>
+											<label for="input_laser_spotsize_0">Säteen halkaisija tai pinta-ala iholla:</label>
+											<input type="text" name="input_laser_spotsize_0" id="input_laser_spotsize_0"><select class="unit" name="unit_laser_spotsize_0" id="unit_laser_spotsize_0" aria-label="Sätten halkaisijan tai pinta-alan yksikkö">
+												<option value="mm">mm</option>
+												<option value="cm">cm</option>
+												<option value="mm2">mm2</option>
+												<option value="cm2">cm2</option>
+											</select>
+											<p>Ohje: Säteen koko iholla (engl. <i>spot size</i>) saattaa käydä ilmi ohjekirjasta. Jos säteen koko on säädettävissä, ilmoita säätöalue (esim. 2-10 mm). Valitse oikea yksikkö pudotusvalikosta.</p>
+											<div id="print_laser_spotsize_0"></div>
+										</fieldset>
+									</div>
+									
+									<div id="laser_applicator_rectangle_0" class="hidden">
+										<fieldset>
+											<label for="input_laser_aperturewidth_0">Valoaukon leveys:</label>
+											<input type="text" name="input_laser_aperturewidth_0" id="input_laser_aperturewidth_0"><select class="unit" name="unit_laser_aperturewidth_0" id="unit_laser_aperturewidth_0" aria-label="Valoaukon leveyden yksikkö">
+												<option value="mm">mm</option>
+												<option value="cm">cm</option>
+											</select>
+											<p>Ohje: Ilmoita säteen leveys iholla. Valitse oikea yksikkö pudotusvalikosta.</p>
+											<div id="print_laser_aperturewidth_0"></div>
+										</fieldset>
+										<fieldset>
+											<label for="input_laser_apertureheight_0">Valoaukon pituus:</label>
+											<input type="text" name="input_laser_apertureheight_0" id="input_laser_apertureheight_0"><select class="unit" name="unit_laser_apertureheight_0" id="unit_laser_apertureheight_0" aria-label="Valoaukon pituuden yksikkö">
+												<option value="mm">mm</option>
+												<option value="cm">cm</option>
+											</select>
+											<p>Ohje: Ilmoita säteen pituus iholla. Valitse oikea yksikkö pudotusvalikosta.</p>
+											<div id="print_laser_apertureheight_0"></div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="add_remove">
+									<p><b>Lisää toinen aallonpituus tai poista tämä aallonpituus:</b></p>
+									<button type="button" class="addLaserWL">+</button>
+									<button type="button" class="deleteLaserWL">-</button>
+								</div>
+							</div>
+						</div>
+					
+						<div id="ipl_info">
+							<h1>Valoimpulssilaitteen tiedot</h1>
+							<p>Täytä kaikki näkyvät kentät altistusarvion laskemiseksi:</p>
+							<fieldset>
+								<label for="input_ipl_model">Laitteen nimi:</label>
+								<input type="text" name="input_ipl_model" id="input_ipl_model" class="unitless">
+								<div id="print_ipl_model"></div>	
+							</fieldset>
+							
+							<fieldset>
+								<label for="input_ipl_pulsewidth">Pulssinpituus:</label>
+								<input type="text" name="input_ipl_pulsewidth" id="input_ipl_pulsewidth"><select class="unit" name="unit_ipl_pulsewidth" id="unit_ipl_pulsewidth" aria-label="Pulssinpituuden yksikkö">
+									<option value="ms">ms</option>
+									<option value="s">s</option>
+								</select>
+								<p>Ohje: Pulssinpituus on usein ilmoitettu laitteen käyttöohjekirjassa. Jos pulssinpituus on säädettävä, ilmoita säätöalue (esim. 50-300 ms). Valitse pudotusvalikosta oikea mittayksikkö.</p>
+								<div id="print_ipl_pulsewidth"></div>
+							</fieldset>
+							
+							<div id="ipl_fluence">
+								<fieldset>
+									<label for="input_ipl_fluence">Energiatiheys tai pulssienergia:</label>
+									<input type="text" name="input_ipl_fluence" id="input_ipl_fluence"><select class="unit" name="unit_ipl_fluence" id="unit_ipl_fluence" onchange="iplUnit_Changed(this)" aria-label="Energiatiheyden tai pulssienergian yksikkö">
+										<option value="Jcm2">J/cm2</option>
+										<option value="Jm2">J/m2</option>
+										<option value="J">J</option>
+										<option value="mJ">mJ</option>
+									</select>
+									<p>Ohje: Energiatiheys (engl. <i>fluence</i>) tai pulssienergia on usein ilmoitettu laitteen käyttöohjekirjassa. Jos asetus on säädettävä, ilmoita säätöalue (esim. 5-15 J/cm<sup>2</sup>). Valitse pudotusvalikosta oikea mittayksikkö. Mittayksikön valinta saattaa avata lisäkenttiä täytettäviksi.</p>
+									<div id="print_ipl_fluence"></div>
+								</fieldset>
+							</div>
+							
+							<div id="ipl_fluence_alt" class="hidden">
+								<fieldset>
+									<label>Valoaukon muoto:</label>
+									<label class="no_bold" for="toggleIPL_applicator_round"><input type="radio" id="toggleIPL_applicator_round" name="ipl_applicator_shape" onchange="toggleIPLShape_Changed(this.id)"> Pyöreä</label>
+									<label class="no_bold" for="toggleIPL_applicator_rectangle"><input type="radio" id="toggleIPL_applicator_rectangle" name="ipl_applicator_shape" onchange="toggleIPLShape_Changed(this.id)"> Suorakulmio</label>
+									<p>Ohje: Valinta avaa lomakekenttiä täytettäviksi.</p>
+								</fieldset>
+								
+								<div id="ipl_applicator_round" class="hidden">
+									<fieldset>
+										<label for="input_ipl_aperturediameter">Valoaukon halkaisija tai pinta-ala:</label>
+										<input type="text" name="input_ipl_aperturediameter" id="input_ipl_aperturediameter"><select class="unit" name="unit_ipl_aperturediameter" id="unit_ipl_aperturediameter" aria-label="Valoaukon halkaisijan tai pinta-alan yksikkö">
+											<option value="cm">cm</option>
+											<option value="mm">mm</option>
+											<option value="cm2">cm2</option>
+											<option value="mm2">mm2</option>
+										</select>
+										<p>Ohje: Mittaa valoaukon halkaisija. Valitse oikea yksikkö pudotusvalikosta.</p>
+										<div id="print_ipl_aperturediameter"></div>
+									</fieldset>
+								</div>
+								
+								<div id="ipl_applicator_rectangle" class="hidden">
+									<fieldset>
+										<label for="input_ipl_aperturewidth">Valoaukon leveys:</label>
+										<input type="text" name="input_ipl_aperturewidth" id="input_ipl_aperturewidth"><select class="unit" name="unit_ipl_aperturewidth" id="unit_ipl_aperturewidth" aria-label="Valoaukon leveyden yksikkö">
+											<option value="cm">cm</option>
+											<option value="mm">mm</option>
+										</select>
+										<p>Ohje: Mittaa valoaukon leveys. Valitse oikea yksikkö pudotusvalikosta.</p>
+										<div id="print_ipl_aperturewidth"></div>
+									</fieldset>
+									
+									<fieldset>
+										<label for="input_ipl_apertureheight">Valoaukon pituus:</label>
+										<input type="text" name="input_ipl_apertureheight" id="input_ipl_apertureheight"><select class="unit" name="unit_ipl_apertureheight" id="unit_ipl_apertureheight" aria-label="Valoaukon pituuden yksikkö">
+											<option value="cm">cm</option>
+											<option value="mm">mm</option>
+										</select>
+										<p>Ohje: Mittaa valoaukon pituus. Valitse oikea yksikkö pudotusvalikosta.</p>
+										<div id="print_ipl_apertureheight"></div>
+									</fieldset>
+								</div>
+							</div>
+						</div>
+						
+						<div id="usonic_info">
+							<h1>Ultraäänilaitteen tiedot</h1>
+							<p>Täytä kaikki näkyvät kentät altistusarvion laskemiseksi:</p>
+							<fieldset>
+								<label for="input_usonic_model">Laitteen nimi:</label>
+								<input type="text" name="input_usonic_model" id="input_usonic_model" class="unitless">
+								<div id="print_usonic_model"></div>
+							</fieldset>
+							
+							<fieldset>
+								<label>Tiedän laitteen ultraäänen:</label>
+								<label class="no_bold" for="toggleUS_ISATA_ISPTA"><input type="radio" id="toggleUS_ISATA_ISPTA" name="usonic_specs" onchange="toggleUSSpecs_Changed(this.id)"> Intensiteetin (I<sub>SATA</sub>) ja sen huippuarvon (I<sub>SPTA</sub>)</label>
+								<label class="no_bold" for="toggleUS_ISATA_BNR"><input type="radio" id="toggleUS_ISATA_BNR" name="usonic_specs" onchange="toggleUSSpecs_Changed(this.id)"> Intensiteetin (I<sub>SATA</sub>) ja BNR-luvun</label>
+								<label class="no_bold" for="toggleUS_ISPTA_BNR"><input type="radio" id="toggleUS_ISPTA_BNR" name="usonic_specs" onchange="toggleUSSpecs_Changed(this.id)"> Intensiteetin huippuarvon (I<sub>SPTA</sub>) ja BNR-luvun</label>
+								<label class="no_bold" for="toggleUS_nothing"><input type="radio" id="toggleUS_nothing" name="usonic_specs" onchange="toggleUSSpecs_Changed(this.id)"> Tehon tai pulssienergian sekä altistusajan</label>
+								<p>Ohje: Valinta avaa lomakekenttiä täytettäviksi.</p>
+							</fieldset>
+							
+							<div id="usonic_ISATA" class="hidden">
+								<fieldset>
+									<label for="input_usonic_ISATA">Ultraäänen intensiteetti (I<sub>SATA</sub>):</label>
+									<input type="text" name="input_usonic_ISATA" id="input_usonic_ISATA"><select class="unit" name="unit_usonic_ISATA" id="unit_usonic_ISATA" aria-label="Ultraäänen intensiteetin yksikkö">
+										<option value="Wcm2">W/cm2</option>
+										<option value="Wm2">W/m2</option>
+									</select>
+									<p>Ohje: Ultraäänen intensiteetti on usein ilmoitettu laitteen käyttöohjekirjassa. Jos intensiteetti on säädettävä, ilmoita säätöalue (esim. 1-5 W/cm<sup>2</sup>). Valitse pudotusvalikosta oikea mittayksikkö.</p>
+									<div id="print_usonic_ISATA"></div>
+								</fieldset>
+							</div>
+							
+							<div id="usonic_ISPTA" class="hidden">
+								<fieldset>
+									<label for="input_usonic_ISPTA">Ultraäänen intensiteetin huippuarvo (I<sub>SPTA</sub>):</label>
+									<input type="text" name="input_usonic_ISPTA" id="input_usonic_ISPTA"><select class="unit" name="unit_usonic_ISPTA" id="unit_usonic_ISPTA" aria-label="Ultraäänen intensiteetin huippuarvon yksikkö">
+										<option value="Wcm2">W/cm2</option>
+										<option value="Wm2">W/m2</option>
+									</select>
+									<p>Ohje: Ilmoita ultraäänen intensiteetin paikallinen huippuarvo keskiarvoistettuna altistusajalle. Ultraäänen intensiteetin huippuarvo voi olla ilmoitettu laitteen ohjekirjassa. Valitse pudotusvalikosta oikea mittayksikkö.</p>
+									<div id="print_usonic_ISPTA"></div>
+								</fieldset>
+							</div>
+							
+							<div id="usonic_BNR" class="hidden">
+								<fieldset>
+									<label for="input_usonic_BNR">BNR:</label>
+									<input type="text" name="input_usonic_BNR" id="input_usonic_BNR">
+									<p>Ohje: BNR tai R<sub>BN</sub> kuvaa ultraäänikeilan tasaisuutta ja on usein ilmoitettu suhdelukuna (esim. 8:1) tai kertoimena. Täytä BNR joko suhdelukuna tai kerrointa vastaavana lukuna.</p>
+									<div id="print_usonic_BNR"></div>
+								</fieldset>
+							</div>
+							
+							<div id="usonic_intensity_alt" class="hidden">		
+								<fieldset>
+									<b><span>Valitse:</span></b>
+									<label class="no_bold" for="toggleUS_CW"><input type="radio" id="toggleUS_CW" name="usonic_mode" onchange="toggleUSMode_Changed(this)"> Laite tuottaa jatkuvaa ultraääntä</label>
+									<label class="no_bold" for="toggleUS_pulsed"><input type="radio" id="toggleUS_pulsed" name="usonic_mode" onchange="toggleUSMode_Changed(this)"> Laite tuottaa ultraäänipulsseja</label>
+									<p>Ohje: Valinta avaa lomakekenttiä täytettäviksi.</p>
+								</fieldset>
+									
+								<div id="usonic_power" class="hidden">	
+									<fieldset>
+										<label for="input_usonic_power">Ultraääniteho:</label>
+										<input type="text" name="input_usonic_power" id="input_usonic_power"><select class="unit" name="unit_usonic_power" id="unit_usonic_power" aria-label="Ultraäänitehon yksikkö">
+											<option value="W">W</option>
+											<option value="mW">mW</option>
+										</select>
+										<p>Ohje: Ultraääniteho on usein ilmoitettu laitteen käyttöohjekirjassa. Jos teho on säädettävä, ilmoita säätöalue (esim. 1-5 W). Valitse pudotusvalikosta oikea mittayksikkö.</p>
+										<div id="print_usonic_power"></div>
+									</fieldset>
+								</div>
+								
+								<div id="usonic_energy" class="hidden">
+									<fieldset>
+										<label for="input_usonic_energy">Ultraääniteho tai pulssienergia:</label>
+										<input type="text" name="input_usonic_energy" id="input_usonic_energy"><select class="unit" name="unit_usonic_energy" id="unit_usonic_energy" aria-label="Ultraäänitehon tai pulssienergian yksikkö">
+											<option value="W">W</option>
+											<option value="mW">mW</option>
+											<option value="W">J</option>
+											<option value="mW">mJ</option>
+										</select>
+										<p>Ohje: Ultraääniteho tai pulssienergia on usein ilmoitettu laitteen käyttöohjekirjassa. Jos asetus on säädettävä, ilmoita säätöalue (esim. 1-5 W). Valitse pudotusvalikosta oikea mittayksikkö.</p>
+										<div id="print_usonic_energy"></div>
+									</fieldset>
+								</div>
+								
+								<div id="usonic_pulsewidth" class="hidden">
+									<fieldset>
+									<label for="input_usonic_pulsewidth">Pulssinpituus:</label>
+									<input type="text" name="input_usonic_pulsewidth" id="input_usonic_pulsewidth"><select class="unit" name="unit_usonic_pulsewidth" id="unit_usonic_pulsewidth" aria-label="Pulssinpituuden yksikkö">
+										<option value="ms">ms</option>
+										<option value="us">&micro;s</option>
+									</select>
+									<p>Ohje: Pulssinpituus on usein ilmoitettu laitteen käyttöohjekirjassa. Jos pulssinpituus on säädettävä, ilmoita säätöalue (esim. 50-300 ms). Valitse pudotusvalikosta oikea mittayksikkö.</p>
+									<div id="print_usonic_pulsewidth"></div>
+									</fieldset>
+								</div>
+								
+								<div id="usonic_type" class="hidden">
+									<fieldset>
+										<label>Valitse:</label>
+										<label class="no_bold" for="toggleUS_HIFU"><input type="radio" id="toggleUS_HIFU" name="usonic_type" onchange="toggleUSType_Changed(this.id)"> Kyseessä on ultraääntä kohdistava laite (esim. HIFU)</label>
+										<label class="no_bold" for="toggleUS_other"><input type="radio" id="toggleUS_other" name="usonic_type" onchange="toggleUSType_Changed(this.id)"> Laite ei kohdista ultraääntä</label>
+										<p>Ohje: Valinta avaa lomakekenttiä täytettäviksi.</p>
+									</fieldset>
+								</div>
+								
+								<div id="usonic_AER" class="hidden">
+									<fieldset>
+										<label for="input_usonic_AER">Hoitopään tehollinen pinta-ala:</label>
+										<input type="text" name="input_usonic_AER" id="input_usonic_AER"><select class="unit" name="unit_usonic_AER" id="unit_usonic_AER" aria-label="Hoitopään tehollisen pinta-alan yksikkö">
+											<option value="cm2">cm2</option>
+											<option value="mm2">mm2</option>
+										</select>
+										<p>Ohje: Hoitopään tehollinen pinta-ala vastaa käytännössä ultraäänikeilan poikkipinta-alaa hoitopään etupinnan välittömässä läheisyydessä. Valitse pudotusvalikosta oikea mittayksikkö.</p>
+										<div id="print_usonic_AER"></div>
+									</fieldset>
+								</div>
+								
+								<div id="usonic_spotsize" class="hidden">
+									<fieldset>
+										<label for="input_usonic_spotsize">Ultraäänen fokuspisteen halkaisija tai pinta-ala:</label>
+										<input type="text" name="input_usonic_spotsize" id="input_usonic_spotsize"><select class="unit" name="unit_usonic_spotsize" id="unit_usonic_spotsize" aria-label="Ultraäänen fokuspisteen halkaisijan tai pinta-alan yksikkö">
+											<option value="mm">mm</option>
+											<option value="cm">cm</option>
+											<option value="mm2">mm2</option>
+											<option value="cm2">cm2</option>
+										</select>
+										<p>Ohje: Ilmoita yksittäisen fokuspisteen halkaisija tai pinta-ala. Fokuspisteellä tarkoitetaan aluetta, johon ultraäänienergia kohdistuu. Valitse pudotusvalikosta oikea mittayksikkö.</p>
+										<div id="print_usonic_spotsize"></div>
+									</fieldset>
+								</div>
+								
+								<div id="usonic_spotcount" class="hidden">
+									<fieldset>
+										<label for="input_usonic_spotcount">Ultraäänen fokuspisteiden lukumäärä:</label>
+										<input type="text" name="input_usonic_spotcount" id="input_usonic_spotcount"><div id="unit_usonic_spotcount" class="unit"> kpl</div>
+										<p>Ohje: Ilmoita fokuspisteiden lukumäärä, joihin ultraääniteho tai pulssienergia jakautuu. Jos ilmoitettu teho tai energia kohdistuu vain yhteen pisteeseen, täytä tähän kenttään arvoksi 1.</p>
+										<div id="print_usonic_spotcount"></div>
+									</fieldset>
+								</div>
+							</div>
+						</div>
+						
+						<fieldset class="buttons">
+							<button type="button" name="Edellinen sivu" class="page selected" id="page2-1" onclick="navigate(this.id)">Edellinen sivu</button>
+							<button type="button" name="Seuraava sivu" class="page" id="page2-3" onclick="navigate(this.id)">Seuraava sivu</button>
+						</fieldset>
+					
+					</div>
+				</div>
+				<div id="page3" class="item">
+					<div class="container wide">
+						
+						<div id="laser_results">
+							<h1>Altistusarvio</h1>
+							<h2>Käyttäjän syöttämät tekniset tiedot</h2>
+							<div id="laser_input"></div>
+							<h2>Teknisten tietojen perusteella laskettu altistusarvio eri asetusten yhdistelmille</h2>
+							<p class="info">Taulukossa altistus ja raja-arvo on määritetty käyttäjän syöttämien tietojen perusteella. Suhde-sarake kuvaa altistusta verrattuna raja-arvoon. Suhteen ollessa 1 tai pienempi, altistus on raja-arvoa matalampi. Suhteen ollessa yli 1, altistus on raja-arvoa suurempi.</p>
+							<table id="table_laser_exposure">
+								<thead>
+									<tr>
+										<th>Aallonpituus</th>
+										<th>Säteilyteho</th>
+										<th>Altistusaika</th>
+										<th>Säteen koko iholla</th>
+										<th>Altistus</th>
+										<th>Raja-arvo</th>
+										<th>Suhde</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							<h2>Kokeile eri asetusten vaikutusta</h2>
+							<p class="info">Valitse ensin pudotusvalikosta aallonpituus</p>
+							<div id="laser_tryit_wavelength">
+								<label for="select_laser_tryit_wavelength" class="no_bold">Aallonpituus</label>
+								<select id="select_laser_tryit_wavelength"></select> nm
+							</div>
+							<div id="laser_tryit">
+								<p id="laser_no_settings">Laitteen teho, pulssinpituus ja säteen koko iholla eivät ole säädettävissä valitulla aallonpituudella</p>
+								<div id="laser_tryit_sliders" class="hidden">
+									<p class="info">Voit kokeilla laitteen eri asetusten vaikutusta altistukseen ja raja-arvoon alla olevia liukusäätimiä liikuttamalla tai syöttämällä asetusarvot taulukossa oleviiin kenttiin.</p>
+									<div id="laser_tryit_power">
+										<label for="slider_laser_tryit_power" class="no_bold">Säteilyteho</label>
+										<input type="range" step="0.1" class="slider" id="slider_laser_tryit_power">
+									</div>
+									<div id="laser_tryit_duration">
+										<label for="slider_laser_tryit_duration" class="no_bold">Altistusaika</label>
+										<input type="range" step="0.1" class="slider" id="slider_laser_tryit_duration">
+									</div>
+									<div id="laser_tryit_spotsize">
+										<label for="slider_laser_tryit_spotsize" class="no_bold">Säteen koko iholla</label>
+										<input type="range" step="0.1" class="slider" id="slider_laser_tryit_spotsize">
+									</div>
+								</div>
+								<div id="laser_tryit_results">
+									<h2>Altistusarvio valituilla asetuksilla</h2>
+									<table id="table_laser_tryit">
+										<thead>
+											<tr>
+												<th>Aallonpituus</th>
+												<th><label for="input_laser_tryit_power">Säteilyteho</label></th>
+												<th><label for="input_laser_tryit_duration">Altistusaika</label></th>
+												<th><label for="input_laser_tryit_spotsize">Säteen koko iholla</label></th>
+												<th>Altistus</th>
+												<th>Raja-arvo</th>
+												<th>Suhde</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td><input type="text" id="input_laser_tryit_power"><span id="unit_laser_tryit_power"></span></td>
+												<td><input type="text" id="input_laser_tryit_duration"><span id="unit_laser_tryit_duration"></span></td>
+												<td><input type="text" id="input_laser_tryit_spotsize"><span id="unit_laser_tryit_spotsize"></span></td>
+												<td><span id="result_laser_tryit_exposure"></span></td>
+												<td><span id="result_laser_tryit_limit"></span></td>
+												<td><span id="result_laser_tryit_ratio"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						
+						<div id="ipl_results">
+							<h1>Altistusarvio</h1>
+							<h2>Käyttäjän syöttämät tekniset tiedot</h2>
+							<div id="ipl_input"></div>
+							<h2>Teknisten tietojen perusteella laskettu altistusarvio eri asetusten yhdistelmille</h2>
+							<p class="info">Taulukossa altistus ja raja-arvo on määritetty käyttäjän syöttämien tietojen perusteella. Suhde-sarake kuvaa altistusta verrattuna raja-arvoon. Suhteen ollessa 1 tai pienempi, altistus on raja-arvoa matalampi. Suhteen ollessa yli 1, altistus on raja-arvoa suurempi.</p>
+							<table id="table_ipl_exposure">
+								<thead>
+									<tr>
+									<th>Tehoasetus</th>
+									<th>Pulssinpituus</th>
+									<th>Valoaukon koko</th>
+									<th>Altistus</th>
+									<th>Raja-arvo</th>
+									<th>Suhde</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							<h2>Kokeile eri asetusten vaikutusta</h2>
+							<div id="ipl_tryit">
+								<p id="ipl_no_settings">Laitteen teho tai pulssinpituus eivät ole säädettävissä</p>
+								<div id="ipl_tryit_sliders" class="hidden">
+									<p class="info">Voit kokeilla laitteen eri asetusten vaikutusta altistukseen ja raja-arvoon alla olevia liukusäätimiä liikuttamalla tai syöttämällä asetusarvot taulukossa oleviiin kenttiin.</p>
+									<div id="ipl_tryit_power">
+										<label for="slider_ipl_tryit_power" class="no_bold">Tehoasetus</label>
+										<input type="range" step="0.1" class="slider" id="slider_ipl_tryit_power">
+									</div>
+									<div id="ipl_tryit_duration">
+										<label for="slider_ipl_tryit_duration" class="no_bold">Pulssinpituus</label>
+										<input type="range" step="0.1" class="slider" id="slider_ipl_tryit_duration">
+									</div>
+								</div>
+								<div id="ipl_tryit_results">
+									<h2>Altistusarvio valituilla asetuksilla</h2>
+									<table id="table_ipl_tryit">
+										<thead>
+											<tr>
+												<th><label for="input_ipl_tryit_power">Tehoasetus</label></th>
+												<th><label for="input_ipl_tryit_duration">Pulssinpituus</label></th>
+												<th>Valoaukon koko</th>
+												<th>Altistus</th>
+												<th>Raja-arvo</th>
+												<th>Suhde</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><input type="text" id="input_ipl_tryit_power"><span id="unit_ipl_tryit_power"></span></td>
+												<td><input type="text" id="input_ipl_tryit_duration"><span id="unit_ipl_tryit_duration"></span></td>
+												<td>Ks. ed. taulukko</td>
+												<td><span id="result_ipl_tryit_exposure"></span></td>
+												<td><span id="result_ipl_tryit_limit"></span></td>
+												<td><span id="result_ipl_tryit_ratio"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						
+						<div id="usonic_results">
+							<h1>Altistusarvio</h1>
+							<h2>Käyttäjän syöttämät tekniset tiedot</h2>
+							<div id="usonic_input"></div>
+							<h2>Teknisten tietojen perusteella laskettu altistusarvio eri asetusten yhdistelmille</h2>
+							<p class="info">Taulukossa altistus ja raja-arvo on määritetty käyttäjän syöttämien tietojen perusteella. Suhde-sarake kuvaa altistusta verrattuna raja-arvoon. Suhteen ollessa 1 tai pienempi, altistus on raja-arvoa matalampi. Suhteen ollessa yli 1, altistus on raja-arvoa suurempi.</p>
+							<table id="table_usonic_exposure">
+								<thead>
+									<tr>
+									<th>Tehoasetus</th>
+									<th>Altistusaika</th>
+									<th>Altistus (I<sub>SATA</sub>)</th>
+									<th>Raja-arvo (I<sub>SATA</sub>)</th>
+									<th>Suhde (I<sub>SATA</sub>)</th>
+									<th>Altistus (I<sub>SPTA</sub>)</th>
+									<th>Raja-arvo (I<sub>SPTA</sub>)</th>
+									<th>Suhde (I<sub>SPTA</sub>)</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						
+						<fieldset class="buttons">
+							<button type="button" name="Edellinen sivu" class="page" id="page3-2" onclick="navigate(this.id)">Edellinen sivu</button>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		
+		// reset scroll position on refresh
+		if (history.scrollRestoration) {
+			history.scrollRestoration = "manual";
+		}
+		
+		// variable to store window width
+		var old_width = $(window).width();
+		
+		// resize elements on window size change
+		$(document).ready(function() {
+			$(window).resize(function () {
+				width = $(window).width();
+				height = $(window).height();
+				// mask width = width * number of items
+				mask_width = width * $(".item").length;
+				$("#wrapper").css({width: width, height: height});
+				$("#mask").css({width: mask_width, height: height});
+				// show active page
+				var index = $("button.selected").attr("id").slice(-1);
+				var target = $("#page"+index);
+				if (width !== old_width) {
+					$("body").scrollTo($(target), 0);
+				}
+				old_width = width;
+			});
+		});
+		
+		// variable to control input data validation
+		var proceed = false;
+		
+		// navigation between pages
+		function navigate(id) {
+			var index = id.slice(-1);
+			// selected class indicates active page for the resize function
+			$("button.page").removeClass("selected");
+			$("#"+id).addClass("selected");
+			var cur = $("#"+id).parent().parent().parent();
+			var target = $("#page"+index);
+			if (index == 1) {
+				switchPage(cur, target, true);
+			}
+			else if (index == 2) {
+				$(document).find("#device_select input[id^=radio_]").each(function() {
+					var cid = $(this).attr("id");
+					var targetInfo = cid.substring(6, cid.length) + "_info";
+					var targetResults = cid.substring(6, cid.length) + "_results";
+					if ($(this).is(":checked")) {
+						$("#"+targetInfo).css("display", "block");
+						$("#"+targetResults).css("display", "block");
+					} else {
+						$("#"+targetInfo).css("display", "none");
+						$("#"+targetResults).css("display", "none");
+					}
+				});
+				if (!$("input[name=\"device_select\"]").is(":checked")) {
+					alert("Valitse ainakin yksi laitetyyppi");
+				} else {
+					switchPage(cur, target, false);
+				}
+			} else if (index == 3) {
+				// input data validation
+				$(document).find("#page2 input:visible").each(function() {
+					if ($(this).attr("id").endsWith("model")) {
+						proceed = true;
+					} else if ($(this).attr("type") == "number") { // note: input type number currently used only for laser wavelength, needs rework is other inputs are changed to type number
+						var max = parseInt($(this).attr("max"));
+						var min = parseInt($(this).attr("min"));
+						if ($(this).val() > max || $(this).val() < min) {
+							$(this).css("background-color", "lavenderblush");
+							proceed = false;
+							alert("Aallonpituuden tulee olla välillä 400-100 000 nm. UV-säteilyä tuottavien lasereiden tapauksessa ole yhteydessä STUKiin käytön vaatimusten selvittämiseksi.");
+							return false;
+						} else {
+							$(this).css("background-color", "white");
+							proceed = true;
+						}  
+					} else if (!$(this).is(":radio") && !$(this).is(":checkbox")) {
+						var input = $(this).val().replace(/ /g,"").replace(/,/g,".");
+						var regex = /^\d+(\.\d+|\d*)(-?\d+(\.\d+|\d*)|\d*)$/;
+						for (var i in input) {
+							if (!input.match(regex)) {
+								$(this).css("background-color", "lavenderblush");
+								proceed = false;
+								alert("Syöttämäsi tiedot ovat virheellisiä tai tietoja puuttuu. Kenttään syötetty arvo ei saa olla negatiivinen lukuarvo tai sisältää kirjaimia. Tarkista seuraava kenttä:\n\n" + $("label[for='" + $(this).attr('id') + "']").text().slice(0,-1));
+								return false;
+							}
+						}
+						if ($(this).val().length === 0) {
+							$(this).css("background-color", "lavenderblush");
+							proceed = false;
+							alert("Syöttämäsi tiedot ovat virheellisiä tai tietoja puuttuu. Kenttään syötetty arvo ei saa olla tyhjä. Tarkista seuraava kenttä:\n\n" + $("label[for='" + $(this).attr('id') + "']").text().slice(0,-1));
+						} else if ($(this).val() <= 0) {
+							$(this).css("background-color", "lavenderblush");
+							proceed = false;
+							alert("Syöttämäsi tiedot ovat virheellisiä tai tietoja puuttuu. Kenttään syötetty arvo ei saa olla nolla tai negatiivinen lukuarvo. Tarkista seuraava kenttä:\n\n" + $("label[for='" + $(this).attr('id') + "']").text().slice(0,-1));
+						} else {
+							$(this).css("background-color", "white");
+							proceed = true;
+						}
+					} else if ($(this).is(":radio")) {
+						if (!$("input[name="+this.name+"]:checked").length) {
+							$(this).parent().parent().css("background-color", "lavenderblush");
+							proceed = false;
+							alert("Tarkista, että jokin monivalintakentän vaihtoehdoista on valittu");
+						} else {
+							$(this).parent().parent().css("background-color", "#f9f9f9");
+							proceed = true;
+						}
+					}
+					if (proceed == false) {
+						return false;
+						// proceed = true; // kommentoi edellinen rivi ja poista tämän kommentointi syötevalidaation ohittamiseksi
+					}
+				});
+				if (proceed) {
+					// reset user input section in results
+					$("#laser_input, #ipl_input, #usonic_input").empty();
+					calcExposure();
+					switchPage(cur, target, true);
+				}
+			}
+		}
+		
+		// page switching function
+		function switchPage (cur, target, hide) {
+			let disabledScrollHandler = (e) => {
+				e.preventDefault();
+			}
+			$(target).css({visibility: "visible", height: "auto"});
+			// disable mousewheel during horizontal scroll
+			document.addEventListener("mousewheel", disabledScrollHandler, {passive: false});
+			if (window.pageYOffset > 0) {
+				$("body").scrollTo(cur, 250);
+			}
+			$("body").scrollTo($(target), 500, {
+				onAfter: function() {
+					requestAnimationFrame(function() {
+						$(cur).css({visibility: "hidden", height: "0"});
+						if (hide) {
+							$("#laser_info, #ipl_info, #usonic_info").hide();
+						}
+						document.removeEventListener("mousewheel", disabledScrollHandler, {passive: false});
+					});
+				}
+			});
+		}
+		
+		// laser
+		class LaserParam {
+			constructor(wavelength, pulseMin, pulseMax, pulseUnit, powerMin, powerMax, powerUnit, spotMin, spotMax, spotUnit, spotW, spotH, spotWUnit, spotHUnit, spotShapeCF, area) {
+				this.wavelength = wavelength;
+				this.pulseMin = pulseMin;
+				this.pulseMax = pulseMax;
+				this.pulseUnit = pulseUnit;
+				this.powerMin = powerMin;
+				this.powerMax = powerMax;
+				this.powerUnit = powerUnit;
+				this.spotMin = spotMin;
+				this.spotMax = spotMax;
+				this.spotUnit = spotUnit;
+				this.spotW = spotW;
+				this.spotH = spotH;
+				this.spotWUnit = spotWUnit;
+				this.spotHUnit = spotHUnit;
+				this.spotShapeCF = 1;
+				this.area = area; //m2
+			}
+			calcSpotAreaRound(spotSize, spotSizeUnit) {
+				var spotArea;
+				if (spotSizeUnit == "mm") {
+					spotArea = Math.PI * Math.pow(spotSize * Math.pow(10, -3), 2) / 4;
+				} else if (spotSizeUnit == "cm") {
+					spotArea = Math.PI * Math.pow(spotSize * Math.pow(10, -2), 2) / 4;
+				} else if (spotSizeUnit == "mm2") {
+					spotArea = spotSize * Math.pow(10, -6);
+				} else if (spotSizeUnit == "cm2") {
+					spotArea = spotSize * Math.pow(10, -4);
+				}
+				if (spotArea < Math.PI * Math.pow(0.0035, 2) / 4) {
+					spotArea = Math.PI * Math.pow(0.0035, 2) / 4;
+				}
+				this.area = spotArea;
+				return {
+					value: spotArea,
+					CF: 1
+				};
+			}
+			calcSpotAreaRect(spotW, spotH, spotWUnit, spotHUnit) {
+				var spotArea, shapeCF;
+				if (spotWUnit == "mm") {
+					spotW *= Math.pow(10, -3);
+				} else if (spotWUnit == "cm") {
+					spotW *= Math.pow(10, -2);
+				}
+				if (spotHUnit == "mm") {
+					spotH *= Math.pow(10, -3);
+				} else if (spotHUnit == "cm") {
+					spotH *= Math.pow(10, -2);
+				}
+				if (spotW <= 0.0031 && spotH <= 0.0031) {
+					shapeCF = 1;
+					spotArea = Math.PI * Math.pow(0.0035, 2) / 4;
+				} else if (spotW < 0.0031 && spotH > 0.0031) {
+					shapeCF = 0.0031 / spotH;
+					spotArea = Math.PI * Math.pow(0.0035, 2) / 4;
+				} else if (spotW > 0.0031 && spotH < 0.0031) {
+					shapeCF = 0.0031 / spotW;
+					spotArea = Math.PI * Math.pow(0.0035, 2) / 4;
+				} else {
+					shapeCF = 1;
+					spotArea = spotW * spotH;
+				}
+				this.area = spotArea;
+				return {
+					value: spotArea,
+					CF: shapeCF
+				};
+			}
+			calcNoArea() {
+				this.area = 1;
+				return {
+					value: 1,
+					CF: 1
+				};
+			}
+			calcExp(power, powerUnit, expTime, expTimeUnit, expLimitUnit, spotArea, spotShapeCF) {
+				var expArea;
+				var expUnit;
+				var t;
+				if (powerUnit == "mW") {
+					expArea = power * Math.pow(10, -3) / spotArea; 
+					expUnit = "W/m2"
+				} else if (powerUnit == "W") {
+					expArea = power / spotArea;
+					expUnit = "W/m2"
+				} else if (powerUnit == "W/cm2") {
+					expArea = power * Math.pow(10, 4);
+					expUnit = "W/m2"
+				} else if (powerUnit == "mJ") {
+					expArea = power * Math.pow(10, -3) / spotArea;
+					expUnit = "J/m2"
+				} else if (powerUnit == "J") {
+					expArea = power / spotArea;
+					expUnit = "J/m2"
+				} else if (powerUnit == "J/cm2") {
+					expArea = power * Math.pow(10, 4);
+					expUnit = "J/m2"
+				}
+				if (expTimeUnit == "s") {
+					t = parseFloat(expTime);
+				} else if (expTimeUnit == "ms") {
+					t = expTime * 0.001;
+				} else if (expTimeUnit == "µs") {
+					t = expTime * Math.pow(10, -6);
+				} else if (expTimeUnit == "ns") {
+					t = expTime * Math.pow(10, -9);
+				}
+				if (expUnit == "W/m2" && expLimitUnit == "J/m2") {
+					expArea *= t;
+					expUnit = "J/m2";
+				} else if (expUnit == "J/m2" && expLimitUnit == "W/m2") {
+					expArea /= t;
+					expUnit = "W/m2";
+				}
+				expArea *= spotShapeCF;
+				return {
+					value: expArea,
+					unit: expUnit
+				}
+			}
+			calcLaserExpLimit(wavelength, t, tUnit) {
+				var T1, C1, C2, C4;
+				var sRow, sCol;
+				var expLimit, expLimitUnit;
+				if (tUnit == "ms") {
+					t *= Math.pow(10, -3);
+				} else if (tUnit == "us") {
+					t *= Math.pow(10, -6);
+				} else if (tUnit == "ns") {
+					t *= Math.pow(10, -9);
+				}
+				if (wavelength >= 302.5 && wavelength <= 400) {
+					C1 = 5.6 * Math.pow(10, 3) * Math.pow(t, 0.25);
+				}
+				if (wavelength >= 302.5 && wavelength <= 315) {
+					C2 = Math.pow(10, (0.2 * (wavelength - 295)));
+					T1 = Math.pow(10, (0.8 * (wavelength - 295)) * Math.pow(10, -15));
+				}
+				if (wavelength >= 700 && wavelength < 1050) {
+					C4 = Math.pow(10, (0.002 * (wavelength - 700)));
+				} else if (wavelength >= 1050 && wavelength <= 1400) {
+					C4 = 5;
+				}
+				if (wavelength >= 180 && wavelength < 302.5) {
+					sRow = 1;
+				} else if (wavelength >= 302.5 && wavelength < 315) {
+					sRow = 2;
+				} else if (wavelength >= 315 && wavelength < 400) {
+					sRow = 3;
+				} else if (wavelength >= 400 && wavelength < 700) {
+					sRow = 4;
+				} else if (wavelength >= 700 && wavelength < 1400){
+					sRow = 5;
+				} else if (wavelength >= 1400 && wavelength < 1500) {
+					sRow = 6;
+				} else if (wavelength >= 1500 && wavelength < 1800){
+					sRow = 7;
+				} else if (wavelength >= 1800 && wavelength < 2600) {
+					sRow = 8;
+				} else if (wavelength >= 2600 && wavelength < Math.pow(10, 5)) {
+					sRow = 9;
+				}
+				if (t < Math.pow(10, -9)) {
+					sCol = 1;
+				} else if (t >= Math.pow(10, -9) && t < Math.pow(10, -7)) {
+					sCol = 2;
+				} else if (t >= Math.pow(10, -7) && t < Math.pow(10, -3)) {
+					sCol = 3;
+				} else if (t >= Math.pow(10, -3) && t < 10) {
+					sCol = 4;
+				//} else if (t >= 10 && t <= 3 * Math.pow(10, 4)) {
+				} else if (t >= 10) {
+					sCol = 5;
+				}
+				switch(sCol) {
+					case 1:
+					expLimitUnit = "W/m2";
+					if (sRow <= 3) {
+						expLimit = 3 * Math.pow(10, 10);
+						break;
+					} else if (sRow == 4) {
+						expLimit = 2 * Math.pow(10, 11);
+						break;
+					} else if (sRow == 5) {
+						expLimit = 2 * Math.pow(10, 11) * C4;
+						break;
+					} else if (sRow == 6 || sRow == 8) {
+						expLimit = Math.pow(10, 12);
+						break;
+					} else if (sRow == 7) {
+						expLimit = Math.pow(10, 13);
+						break;
+					} else if (sRow == 9) {
+						expLimit = Math.pow(10, 11);
+						break;
+					}
+					case 2:
+					expLimitUnit = "J/m2";
+					if (sRow == 1) {
+						expLimit = 30;
+						
+						break;
+					} else if (sRow == 2) {
+						if (t <= T1) {
+							expLimit = C1;
+							break;
+						} else if (t > T1) {
+							expLimit = C2;
+							break;
+						}
+					} else if (sRow == 3) {
+						expLimit = C1;
+						break;
+					} else if (sRow == 4) {
+						expLimit = 200;
+						break;
+					} else if (sRow == 5) {
+						expLimit = 200 * C4;
+						break;
+					} else if (sRow == 6 || sRow == 8) {
+						expLimit = 1000;
+						break;
+					} else if (sRow == 7) {
+						expLimit = 10000;
+						break;
+					} else if (sRow == 9) {
+						expLimit = 100;
+						break;
+					}
+					case 3:
+					expLimitUnit = "J/m2";
+					if (sRow == 1) {
+						expLimit = 30;
+						break;
+					} else if (sRow == 2) {
+						if (t <= T1) {
+							expLimit = C1;
+							break;
+						} else if (t > T1) {
+							expLimit = C2;
+							break;
+						}
+					} else if (sRow == 3) {
+						expLimit = C1;
+						break;
+					} else if (sRow == 4) {
+						expLimit = 1.1 * Math.pow(10, 4) * Math.pow(t, 0.25);
+						break;
+					} else if (sRow == 5) {
+						expLimit = 1.1 * Math.pow(10, 4) * Math.pow(t, 0.25) * C4;
+						break;
+					} else if (sRow == 6 || sRow == 8) {
+						expLimit = 1000;
+						break;
+					} else if (sRow == 7) {
+						expLimit = 10000;
+						break;
+					} else if (sRow == 9) {
+						expLimit = 5600 * Math.pow(t, 0.25);
+						break;
+					}
+					case 4:
+					expLimitUnit = "J/m2";
+					if (sRow == 1) {
+						expLimit = 30;
+						break;
+					} else if (sRow == 2) {
+						if (t <= T1) {
+							expLimit = C1;
+							break;
+						} else if (t > T1) {
+							expLimit = C2;
+							break;
+						}
+					} else if (sRow == 3) {
+						expLimit = C1;
+						break;
+					} else if (sRow == 4) {
+						expLimit = 1.1 * Math.pow(10, 4) * Math.pow(t, 0.25);
+						break;
+					} else if (sRow == 5) {
+						expLimit = 1.1 * Math.pow(10, 4) * Math.pow(t, 0.25) * C4;
+						break;
+					} else if (sRow == 6 || sRow == 8) {
+						expLimit = 5600 * Math.pow(t, 0.25);
+						break;
+					} else if (sRow == 7) {
+						expLimit = 10000;
+						break;
+					} else if (sRow == 9) {
+						expLimit = 5600 * Math.pow(t, 0.25);
+						break;
+					}
+					case 5:
+					if (sRow == 1) {
+						expLimit = 30;
+						expLimitUnit = "J/m2";
+						break;
+					} else if (sRow == 2) {
+						expLimit = C2;
+						expLimitUnit = "J/m2";
+						break;
+					} else if (sRow == 3) {
+						expLimit = Math.pow(10, 4);
+						expLimitUnit = "J/m2";
+						break;
+					} else if (sRow == 4) {
+						expLimit = 2000;
+						expLimitUnit = "W/m2";
+						break;
+					} else if (sRow == 5) {
+						expLimit = 2000 * C4;
+						expLimitUnit = "W/m2";
+						break;
+					} else if (sRow == 6 || sRow == 7 || sRow == 8 || sRow == 9) {
+						expLimit = 1000;
+						expLimitUnit = "W/m2";
+						break;
+					}
+				}
+				// STUK S/11/202X comparison
+				if (wavelength >= 400 && t >= 0.25) {
+					var expLimitSTUK, expLimitUnitSTUK;
+					if (t < 10) {
+						expLimitSTUK = 500 * Math.pow(10, -3) * t / (Math.PI * Math.pow(3.5 * Math.pow(10, -3), 2) / 4);
+						expLimitUnitSTUK = "J/m2";
+					} else {
+						if (expLimitUnit = "W/m2") {
+							expLimitSTUK = 500 * Math.pow(10, -3) / (Math.PI * Math.pow(3.5 * Math.pow(10, -3), 2) / 4);
+							expLimitUnitSTUK = "W/m2";
+						} else if (expLimitUnit = "J/m2") {
+							expLimitSTUK = (500 * Math.pow(10, -3) / (Math.PI * Math.pow(3.5 * Math.pow(10, -3), 2) / 4)) / t;
+							expLimitUnitSTUK = "J/m2";
+						}
+					}
+					if (expLimit < expLimitSTUK) {
+						expLimit = expLimitSTUK;
+						expLimitUnit = expLimitUnitSTUK;
+					}
+				}
+				return {
+					value: expLimit,
+					unit: expLimitUnit
+				}
+			}
+		}
+		
+		// additional class to handle multiple wavelengths
+		class Lasers {
+			constructor() {
+				this.lasers = [];
+			}
+			newLaser(p) {
+				this.lasers.push(p);
+				return p;
+			}
+		}
+		let WL = new Lasers();
+		
+		// IPL
+		class iplParam {
+			constructor(pulseMin, pulseMax, pulseUnit, energyMin, energyMax, energyUnit, spotD, spotDUnit, spotW, spotH, spotWUnit, spotHUnit, area) {
+				this.pulseMin = pulseMin;
+				this.pulseMax = pulseMax;
+				this.pulseUnit = pulseUnit;
+				this.energyMin = energyMin;
+				this.energyMax = energyMax;
+				this.energyUnit = energyUnit;
+				this.spotD = spotD;
+				this.spotDUnit = spotDUnit;
+				this.spotW = spotW;
+				this.spotH = spotH;
+				this.spotWUnit = spotWUnit;
+				this.spotHUnit = spotHUnit;
+				this.area = area;
+			}
+			calcSpotAreaRound(spotD, spotDUnit) {
+				var spotArea;
+				if (spotDUnit == "mm") {
+					spotArea = Math.PI * Math.pow(spotD * Math.pow(10, -3), 2) / 4;
+				} else if (spotDUnit == "cm") {
+					spotArea = Math.PI * Math.pow(spotD * Math.pow(10, -2), 2) / 4;
+				} else if (spotDUnit == "mm2") {
+					spotArea = spotD * Math.pow(10, -6);
+				} else if (spotDUnit == "cm2") {
+					spotArea = spotD * Math.pow(10, -4);
+				}
+				this.area = spotArea;
+				return {
+					value: spotArea,
+				};
+			}
+			calcSpotAreaRect(spotW, spotH, spotWUnit, spotHUnit) {
+				var spotArea;
+				if (spotWUnit == "mm") {
+					spotW *= Math.pow(10, -3);
+				} else if (spotWUnit == "cm") {
+					spotW *= Math.pow(10, -2);
+				}
+				if (spotHUnit == "mm") {
+					spotH *= Math.pow(10, -3);
+				} else if (spotHUnit == "cm") {
+					spotH *= Math.pow(10, -2);
+				}
+				spotArea = spotW * spotH;
+				this.area = spotArea;
+				return {
+					value: spotArea,
+				};
+			}
+			calcNoArea() {
+				this.area = 1;
+				return {
+					value: 1,
+				};
+			}
+			calcExp(energy, energyUnit, spotArea) {
+				var expArea, expUnit;
+				if (energyUnit == "J/cm2") {
+					expArea = energy * Math.pow(10, 4); 
+					expUnit = "J/m2"
+				} else if (energyUnit == "J/m2") {
+					expArea = parseFloat(energy);
+					expUnit = "J/m2"
+				} else if (energyUnit == "J") {
+					expArea = energy / spotArea;
+					expUnit = "J/m2"
+				} else if (energyUnit == "mJ") {
+					expArea = energy * Math.pow(10, -3) / spotArea;
+					expUnit = "J/m2"
+				}
+				return {
+					value: expArea,
+					unit: expUnit
+				}
+			}
+			calcExpLimit(t, unit) {
+				if (unit == "ms") {
+					if (t < 10000) {
+						var expLimit = 300000 * Math.pow(t * Math.pow(10, -3), 0.25);
+						var expLimitUnit = "J/m2";
+						} else {
+							var expLimit = Infinity;
+							var expLimitUnit = "";
+						}
+				} else if (unit == "s") {
+					if (t < 10) {
+						var expLimit = 300000 * Math.pow(t, 0.25);
+						var expLimitUnit = "J/m2";
+					} else {
+						var expLimit = Infinity;
+						var expLimitUnit = "";
+					}
+				}
+				return {
+					value: expLimit,
+					unit: expLimitUnit
+				}
+			}
+		}
+		
+		let ipl = new iplParam();
+		
+		// ultrasound
+		class usonicParam {
+			constructor(ISATAMin, ISATAMax, ISATAUnit, ISPTAMin, ISPTAMax, ISPTAUnit, powerMin, powerMax, powerUnit, pulseMin, pulseMax, pulseUnit, BNR, AER, AERUnit, spotSize, spotSizeUnit, spotCount) {
+				this.ISATAMin = ISATAMin;
+				this.ISATAMax = ISATAMax;
+				this.ISATAUnit = ISATAUnit;
+				this.ISPTAMin = ISPTAMin;
+				this.ISPTAMax = ISPTAMax;
+				this.ISPTAUnit = ISPTAUnit;
+				this.powerMin = powerMin;
+				this.powerMax = powerMax;
+				this.powerUnit = powerUnit;
+				this.pulseMin = pulseMin;
+				this.pulseMax = pulseMax;
+				this.pulseUnit = "cont";
+				this.BNR = BNR;
+				this.AER = AER;
+				this.AERUnit = AERUnit;
+				this.spotSize = spotSize;
+				this.spotSizeUnit = spotSizeUnit;
+				this.spotCount = spotCount;
+			}
+			calcSATASPTA(intensity, intUnit) {
+				if (intUnit == "W/m2") {
+					intensity *= Math.pow(10, -4);
+					intUnit = "W/cm2";
+				}
+				return {
+					value: intensity,
+					unit: intUnit
+				}
+			}
+			calcSATABNR(ISATA, ISATAUnit, BNR) {
+				var ISPTA, ISPTAUnit;
+				if (ISATAUnit == "W/m2") {
+					ISATA *= Math.pow(10, -4);
+				}
+				ISPTA = ISATA * BNR;
+				ISPTAUnit = "W/cm2";
+				return {
+					value: ISPTA,
+					unit: ISPTAUnit
+				}
+			}
+			calcSPTABNR(ISPTA, ISPTAUnit, BNR) {
+				var ISATA, ISATAUnit;
+				if (ISPTAUnit == "W/m2") {
+					ISPTA *= Math.pow(10, -4);
+				}
+				ISATA = ISPTA / BNR;
+				ISATAUnit = "W/cm2";
+				return {
+					value: ISATA,
+					unit: ISATAUnit
+				}
+			}
+			calcPower(power, powerUnit, pulsewidth, pulsewidthUnit, AER, AERUnit, spotSize, spotSizeUnit, spotCount) {
+				var calcISATA, calcISPTA;
+				var spotArea;
+				var powerPerSpot;
+				if (powerUnit == "mJ" || powerUnit == "mW") {
+					power *= Math.pow(10, -3);
+				}
+				if (pulsewidthUnit == "ms") {
+					pulsewidth *= Math.pow(10, -3);
+				} else if (pulsewidthUnit == "us") {
+					pulsewidth *= Math.pow(10, -6);
+				}
+				if (powerUnit == "J" || powerUnit == "mJ") {
+					power /= pulsewidth;
+				}
+				if (AERUnit == "mm2") {
+					AER *= Math.pow(10, -2);
+				}
+				calcISATA = power / AER;
+				if (spotSizeUnit == "mm") {
+					spotArea = Math.PI * Math.pow(spotSize * Math.pow(10, -1), 2) / 4;
+				} else if (spotSizeUnit == "cm") {
+					spotArea = Math.PI * Math.pow(spotSize, 2) / 4;
+				} else if (spotSizeUnit == "mm2") {
+					spotArea = spotSize * Math.pow(10, -2);
+				} else if (spotSizeUnit == "cm2") {
+					spotArea = parseFloat(spotSize);
+				}
+				if (spotCount == 0) {
+					powerPerSpot = power / spotArea;
+				} else {
+					powerPerSpot = power / spotCount / spotArea;
+				}
+				if (spotCount == undefined) {
+					calcISPTA = calcISATA;
+				} else {
+					calcISPTA = powerPerSpot;
+				}
+				return {
+					ISATA: calcISATA,
+					ISPTA: calcISPTA,
+					unit: "W/cm2"
+				}
+			}
+		}
+		
+		let usonic = new usonicParam();
+		
+		// calculate exposure, exposure limit and print data
+		function calcExposure() {
+			// laser
+			if ($("#laser_info").is(":visible")) {
+				var table = $("#table_laser_exposure").children("tbody");
+				$(table).empty();
+				$("#select_laser_tryit_wavelength").empty();
+				WL.lasers.length = 0;
+				$("#laser_info").find(".laserWL_placeholder").each(function(index) {
+					let laser = new LaserParam();
+					// wavelength
+					laser.wavelength = $("#input_laser_wavelength_"+index).val();
+					// pulse width
+					if ($("#input_laser_pulsewidth_"+index).is(":visible")) {
+						var laserPulsewidthArray = $("#input_laser_pulsewidth_"+index).val().split("-");
+						var laserPulsewidthUnit = $("#unit_laser_pulsewidth_"+index).children("option:selected");
+						for (var i = 0; i < laserPulsewidthArray.length; i++) {
+							laserPulsewidthArray[i] = laserPulsewidthArray[i].replace(",", ".");
+						}
+						laser.pulseMin = laserPulsewidthArray[0];
+						if (laserPulsewidthArray.length > 1) {
+							laser.pulseMax = laserPulsewidthArray[1];
+						}
+						laser.pulseUnit = laserPulsewidthUnit.val();
+					} else {
+						laser.pulseMin = 100;
+						laser.pulseUnit = "cont";
+					}
+					// spot size
+					if ($("#laser_applicator_round_"+index).is(":visible")) {
+						var laserSpotArray = $("#input_laser_spotsize_"+index).val().split("-");
+						var laserSpotUnit = $("#unit_laser_spotsize_"+index).children("option:selected");
+						for (var i = 0; i < laserSpotArray.length; i++) {
+							laserSpotArray[i] = laserSpotArray[i].replace(",", ".");
+						}
+						laser.spotMin = laserSpotArray[0];
+						if (laserSpotArray.length > 1) {
+							laser.spotMax = laserSpotArray[1];
+						}
+						laser.spotShapeCF = 1;
+						laser.spotUnit = laserSpotUnit.val();
+					} else if ($("#laser_applicator_rectangle_"+index).is(":visible")) {
+						laser.spotW = $("#input_laser_aperturewidth_"+index).val().replace(",", ".");
+						laser.spotH = $("#input_laser_apertureheight_"+index).val().replace(",", ".");
+						laser.spotWUnit = $("#unit_laser_aperturewidth_"+index).children("option:selected").val();
+						laser.spotHUnit = $("#unit_laser_apertureheight_"+index).children("option:selected").val();
+					}
+					// power, energy or fluence
+					if ($("#input_laser_power_"+index).is(":visible")) {
+						var laserPArray = $("#input_laser_power_"+index).val().split("-");
+						var laserPUnit = $("#unit_laser_power_"+index).children("option:selected");
+						for (var i = 0; i < laserPArray.length; i++) {
+							laserPArray[i] = laserPArray[i].replace(",", ".");
+						}
+						laser.powerMin = laserPArray[0];
+						if (laserPArray.length > 1) {
+							laser.powerMax = laserPArray[1];
+						}
+						laser.powerUnit = laserPUnit.text();
+					} else if ($("#input_laser_energy_"+index).is(":visible")) {
+						var laserEArray = $("#input_laser_energy_"+index).val().split("-");
+						var laserEUnit = $("#unit_laser_energy_"+index).children("option:selected");
+						for (var i = 0; i < laserEArray.length; i++) {
+							laserEArray[i] = laserEArray[i].replace(",", ".");
+						}
+						laser.powerMin = laserEArray[0];
+						if (laserEArray.length > 1) {
+							laser.powerMax = laserEArray[1];
+						}
+						laser.powerUnit = laserEUnit.text();
+					}
+					WL.newLaser(laser);
+					$("#select_laser_tryit_wavelength").append(new Option(WL.lasers[index].wavelength));
+					
+					// print
+					var printArray = new Array();
+					printArray[0] = laser.wavelength;
+					if (typeof laser.pulseMin !== "undefined" && laser.pulseUnit !== "cont") {
+						printArray[1] = laser.pulseMin;
+						printArray[2] = laser.pulseMax;
+						var sLoop = 2;
+					} else if (laser.pulseUnit == "cont") {
+						printArray[1] = laser.pulseMin;
+						printArray[2] = "Jatkuva";
+						var sLoop = 1;
+					}
+					if (typeof laser.powerMin !== "undefined") {
+						printArray[3] = laser.powerMin;
+						printArray[4] = laser.powerMax;
+					}
+					if (typeof laser.spotMin !== "undefined") {
+						printArray[5] = laser.spotMin;
+						printArray[6] = laser.spotMax;
+						var fLoop = 2;
+					} else if (typeof laser.spotW !== "undefined" && typeof laser.spotH !== "undefined") {
+						printArray[5] = laser.spotW;
+						printArray[6] = laser.spotH;
+						var fLoop = 1;
+					} else {
+						printArray[5] = "default";
+						printArray[6] = undefined;
+						var fLoop = 2;
+					}
+					for (var a = 0; a < 1; a++) {
+						for (var s = 1; s < 1 + sLoop; s++) {
+							for (var d = 3; d <= 4; d++) {
+								for (var f = 5; f < 5 + fLoop; f++) {
+									if (typeof printArray[s] !== "undefined" && typeof printArray[d] !== "undefined" && typeof printArray[f] !== "undefined") {
+										tr = document.createElement("tr");
+										var td6 = document.createElement("td");
+										var expLimit = laser.calcLaserExpLimit(printArray[a], printArray[s], laser.pulseUnit);
+										expLimitValue = expLimit.value;
+										expLimitUnit = expLimit.unit;
+										td6.innerHTML = expLimitValue.toFixed(0).replace(".",",")+" "+expLimitUnit;
+										
+										var td1 = document.createElement("td");
+										td1.innerHTML = printArray[a]+" nm";
+										tr.appendChild(td1);
+										
+										var td2 = document.createElement("td");
+										td2.innerHTML = printArray[d].toString().replace(".",",")+" "+laser.powerUnit;
+										tr.appendChild(td2);
+										
+										var td3 = document.createElement("td");
+										if (sLoop == 1) {
+											td3.innerHTML = printArray[2];
+										} else {
+											td3.innerHTML = printArray[s].toString().replace(".",",")+" "+laser.pulseUnit;
+										}
+										tr.appendChild(td3);
+										
+										var td4 = document.createElement("td");
+										if (printArray[f] == "default") {
+											var area = laser.calcNoArea();
+											td4.innerHTML = "N/A";
+										} else if (fLoop == 1) {
+											td4.innerHTML = printArray[5].toString().replace(".",",")+" "+laser.spotWUnit+" * "+printArray[6].toString().replace(".",",")+" "+laser.spotHUnit;
+											var area = laser.calcSpotAreaRect(printArray[5], printArray[6], laser.spotWUnit, laser.spotHUnit);
+										} else {
+											td4.innerHTML = printArray[f].toString().replace(".",",")+" "+laser.spotUnit;
+											var area = laser.calcSpotAreaRound(printArray[f], laser.spotUnit);
+										}
+										tr.appendChild(td4);
+										
+										var td5 = document.createElement("td");
+										var exp = laser.calcExp(printArray[d], laser.powerUnit, printArray[s], laser.pulseUnit, expLimitUnit, area.value, area.CF);
+										var expValue = exp.value;
+										var expUnit = exp.unit;
+										td5.innerHTML = expValue.toFixed(0).replace(".",",")+" "+expUnit;
+										tr.appendChild(td5);
+										tr.appendChild(td6);
+										
+										var td7 = document.createElement("td");
+										var expRatio = (expValue / expLimitValue).toFixed(1);
+										td7.innerHTML = expRatio.replace(".",",")+" x";
+										if (parseFloat(expRatio) > 1) {
+											$(td7).css("color", "red");
+											$(td7).css("font-weight", "bold");
+										} else {
+											$(td7).css("color", "green");
+											$(td7).css("font-weight", "bold");
+										}
+										tr.appendChild(td7);
+										$(table).append(tr);
+									}
+								}
+							}
+						}
+					}
+				});
+				set_laserSliders(0);
+			}
+			
+			// IPL
+			if ($("#ipl_info").is(":visible")) {
+				var table = $("#table_ipl_exposure").children("tbody");
+				$(table).empty();
+				ipl = new iplParam();
+				// pulse width
+				var iplPulseArray = $("#input_ipl_pulsewidth").val().split("-");
+				var iplPulsewidthUnit = $("#unit_ipl_pulsewidth").children("option:selected");
+				for (var i = 0; i < iplPulseArray.length; i++) {
+					iplPulseArray[i] = iplPulseArray[i].replace(",", ".");
+				}
+				ipl.pulseMin = iplPulseArray[0];
+				if (iplPulseArray.length > 1) {
+					ipl.pulseMax = iplPulseArray[1];
+				}
+				ipl.pulseUnit = iplPulsewidthUnit.val();
+				// energy or fluence
+				var iplFArray = $("#input_ipl_fluence").val().split("-");
+				var iplFUnit = $("#unit_ipl_fluence").children("option:selected");
+				for (var i = 0; i < iplFArray.length; i++) {
+					iplFArray[i] = iplFArray[i].replace(",", ".");
+				}
+				ipl.energyMin = iplFArray[0];
+				if (iplFArray.length > 1) {
+					ipl.energyMax = iplFArray[1];
+				}
+				ipl.energyUnit = iplFUnit.text();
+				// aperture size
+				if ($("#ipl_applicator_round").is(":visible")) {
+					ipl.spotD = $("#input_ipl_aperturediameter").val().replace(",", ".");
+					ipl.spotDUnit = $("#unit_ipl_aperturediameter").children("option:selected").val();
+				} else if ($("#ipl_applicator_rectangle").is(":visible")) {
+					ipl.spotW = $("#input_ipl_aperturewidth").val().replace(",", ".");
+					ipl.spotH = $("#input_ipl_apertureheight").val().replace(",", ".");
+					ipl.spotWUnit = $("#unit_ipl_aperturewidth").children("option:selected").val();
+					ipl.spotHUnit = $("#unit_ipl_apertureheight").children("option:selected").val();
+				}
+				
+				// print
+				var printArray = new Array();
+				if (typeof ipl.pulseMin !== "undefined") {
+					printArray[1] = ipl.pulseMin;
+					printArray[2] = ipl.pulseMax;
+				}
+				if (typeof ipl.energyMin !== "undefined") {
+					printArray[3] = ipl.energyMin;
+					printArray[4] = ipl.energyMax;
+				}
+				if (typeof ipl.spotD !== "undefined") {
+					printArray[5] = ipl.spotD;
+					printArray[6] = undefined;
+					var fLoop = 2;
+				} else if (typeof ipl.spotW !== "undefined" && typeof ipl.spotH !== "undefined") {
+					printArray[5] = ipl.spotW;
+					printArray[6] = ipl.spotH;
+					var fLoop = 1;
+				} else {
+					printArray[5] = "default";
+					printArray[6] = undefined;
+					var fLoop = 2;
+				}
+				for (var a = 0; a < 1; a++) {
+					for (var s = 1; s <= 2; s++) {
+						for (var d = 3; d <= 4; d++) {
+							for (var f = 5; f < 5 + fLoop; f++) {
+								if (typeof printArray[s] !== "undefined" && typeof printArray[d] !== "undefined" && typeof printArray[f] !== "undefined") {
+									tr = document.createElement("tr");
+									
+									var td1 = document.createElement("td");
+									td1.innerHTML = printArray[d].toString().replace(".",",")+" "+ipl.energyUnit;
+									tr.appendChild(td1);
+									
+									var td2 = document.createElement("td");
+									td2.innerHTML = printArray[s].toString().replace(".",",")+" "+ipl.pulseUnit;
+									tr.appendChild(td2);
+									
+									var td3 = document.createElement("td");
+									if (printArray[f] == "default") {
+										var area = ipl.calcNoArea();
+										td3.innerHTML = "N/A";
+									} else if (fLoop == 1) {
+										td3.innerHTML = printArray[5].toString().replace(".",",")+" "+ipl.spotWUnit+" * "+printArray[6].toString().replace(".",",")+" "+ipl.spotHUnit;
+										var area = ipl.calcSpotAreaRect(printArray[5], printArray[6], ipl.spotWUnit, ipl.spotHUnit);
+									} else {
+										td3.innerHTML = printArray[f].toString().replace(".",",")+" "+ipl.spotDUnit;
+										var area = ipl.calcSpotAreaRound(printArray[f], ipl.spotDUnit);
+									}
+									tr.appendChild(td3);
+									
+									var td4 = document.createElement("td");
+									var exp = ipl.calcExp(printArray[d], ipl.energyUnit, area.value);
+									var expValue = exp.value;
+									var expUnit = exp.unit;
+									td4.innerHTML = expValue.toFixed(0).replace(".",",")+" "+expUnit;
+									tr.appendChild(td4);
+									
+									var td5 = document.createElement("td");
+									var expLimit = ipl.calcExpLimit(printArray[s], ipl.pulseUnit);
+									expLimitValue = expLimit.value;
+									expLimitUnit = expLimit.unit;
+									td5.innerHTML = expLimitValue.toFixed(0).replace(".",",")+" "+expLimitUnit;
+									tr.appendChild(td5);
+									
+									var td6 = document.createElement("td");
+									var expRatio = (expValue / expLimitValue).toFixed(1);
+									td6.innerHTML = expRatio.replace(".",",")+" x";
+									if (parseFloat(expRatio) > 1) {
+										$(td6).css("color", "red");
+										$(td6).css("font-weight", "bold");
+									} else {
+										$(td6).css("color", "green");
+										$(td6).css("font-weight", "bold");
+									}
+									tr.appendChild(td6);
+									$(table).append(tr);
+								}
+							}
+						}
+					}
+				}
+				set_iplSliders();
+			}
+			
+			// ultraääni
+			if ($("#usonic_info").is(":visible")) {
+				var table = $("#table_usonic_exposure").children("tbody");
+				$(table).empty();
+				usonic = new usonicParam();
+				// ISATA
+				if ($("#usonic_ISATA").is(":visible")) {
+					var usonicISATAArray = $("#input_usonic_ISATA").val().split("-");
+					var usonicISATAUnit = $("#unit_usonic_ISATA").children("option:selected");
+					for (var i = 0; i < usonicISATAArray.length; i++) {
+						usonicISATAArray[i] = usonicISATAArray[i].replace(",", ".");
+					}
+					usonic.ISATAMin = usonicISATAArray[0];
+					if (usonicISATAArray.length > 1) {
+						usonic.ISATAMax = usonicISATAArray[1];
+					}
+					usonic.ISATAUnit = usonicISATAUnit.text();
+				}
+				// ISPTA
+				if ($("#usonic_ISPTA").is(":visible")) {
+					var usonicISPTAArray = $("#input_usonic_ISPTA").val().split("-");
+					var usonicISPTAUnit = $("#unit_usonic_ISPTA").children("option:selected");
+					for (var i = 0; i < usonicISPTAArray.length; i++) {
+						usonicISPTAArray[i] = usonicISPTAArray[i].replace(",", ".");
+					}
+					usonic.ISPTAMin = usonicISPTAArray[0];
+					if (usonicISPTAArray.length > 1) {
+						usonic.ISPTAMax = usonicISPTAArray[1];
+					}
+					usonic.ISPTAUnit = usonicISPTAUnit.text();
+				}
+				// BNR
+				if ($("#usonic_BNR").is(":visible")) {
+					var usonicBNRInput = $("#input_usonic_BNR").val().split(":");
+					if (usonicBNRInput.length > 1) {
+						usonicBNR = usonicBNRInput[0] / usonicBNRInput[1];
+					} else {
+						usonicBNR = usonicBNRInput[0].replace(",", ".");
+					}
+					usonic.BNR = usonicBNR;
+				}
+				if ($("#usonic_intensity_alt").is(":visible")) {
+					// power or energy
+					if ($("#usonic_power").is(":visible")) {
+						var usonicPArray = $("#input_usonic_power").val().split("-");
+						var usonicPUnit = $("#unit_usonic_power").children("option:selected");
+						for (var i = 0; i < usonicPArray.length; i++) {
+							usonicPArray[i] = usonicPArray[i].replace(",", ".");
+						}
+						usonic.powerMin = usonicPArray[0];
+						if (usonicPArray.length > 1) {
+							usonic.powerMax = usonicPArray[1];
+						}
+						usonic.powerUnit = usonicPUnit.text();
+					} else if ($("#usonic_energy").is(":visible")) {
+						var usonicEArray = $("#input_usonic_energy").val().split("-");
+						var usonicEUnit = $("#unit_usonic_energy").children("option:selected");
+						for (var i = 0; i < usonicEArray.length; i++) {
+							usonicEArray[i] = usonicEArray[i].replace(",", ".");
+						}
+						usonic.powerMin = usonicEArray[0];
+						if (usonicEArray.length > 1) {
+							usonic.powerMax = usonicEArray[1];
+						}
+						usonic.powerUnit = usonicEUnit.text();
+					}
+					// pulse width
+					if ($("#usonic_pulsewidth").is(":visible")) {
+						var usonicPulsewidthArray = $("#input_usonic_pulsewidth").val().split("-");
+						var usonicPulsewidthUnit = $("#unit_usonic_pulsewidth").children("option:selected");
+						for (var i = 0; i < usonicPulsewidthArray.length; i++) {
+							usonicPulsewidthArray[i] = usonicPulsewidthArray[i].replace(",", ".");
+						}
+						usonic.pulseMin = usonicPulsewidthArray[0];
+						if (usonicPulsewidthArray.length > 1) {
+							usonic.pulseMax = usonicPulsewidthArray[1];
+						}
+						usonic.pulseUnit = usonicPulsewidthUnit.val();
+					}
+					usonic.AER = $("#input_usonic_AER").val().replace(",", ".");
+					usonic.AERUnit = $("#unit_usonic_AER").val();
+					if ($("#usonic_spotsize").is(":visible") && $("#usonic_spotcount").is(":visible")) {
+						usonic.spotSize = $("#input_usonic_spotsize").val().replace(",", ".");
+						usonic.spotSizeUnit = $("#unit_usonic_spotsize").val();
+						usonic.spotCount = $("#input_usonic_spotcount").val();
+					}
+				}
+				
+				// print
+				var printArray = new Array();
+				var sLoop = 0;
+				if (typeof usonic.ISATAMin !== "undefined" && typeof usonic.ISPTAMin !== "undefined") {
+					printArray[1] = "SATASPTA";
+					printArray[2] = usonic.ISATAMin;
+					printArray[3] = usonic.ISATAMax;
+					printArray[4] = usonic.ISPTAMin;
+					printArray[5] = usonic.ISPTAMax;
+					sLoop = -2;
+				} else if (typeof usonic.ISATAMin !== "undefined" && typeof usonic.BNR !== "undefined") {
+					printArray[1] = "SATABNR";
+					printArray[2] = usonic.ISATAMin;
+					printArray[3] = usonic.ISATAMax;
+					printArray[4] = undefined;
+					printArray[5] = undefined;
+				} else if (typeof usonic.ISPTAMin !== "undefined" && typeof usonic.BNR !== "undefined") {
+					printArray[1] = "SPTABNR";
+					printArray[2] = undefined;
+					printArray[3] = undefined;
+					printArray[4] = usonic.ISPTAMin;
+					printArray[5] = usonic.ISPTAMax;
+				} else if (typeof usonic.powerMin !== "undefined") {
+					printArray[1] = "Power";
+					printArray[2] = usonic.powerMin;
+					printArray[3] = usonic.powerMax;
+					printArray[4] = undefined;
+					printArray[5] = undefined;
+				}
+				if (typeof usonic.pulseMin !== "undefined" && usonic.pulseUnit !== "cont") {
+					printArray[6] = usonic.pulseMin;
+					printArray[7] = usonic.pulseMax;
+					var dLoop = 2;
+				} else if (usonic.pulseUnit == "cont") {
+					printArray[6] = "Jatkuva";
+					printArray[7] = undefined;
+					var dLoop = 1;
+				}
+				for (var a = 0; a < 1; a++) {
+					for (var s = 2; s <= 5 + sLoop; s++) {
+						for (var d = 6; d < 7 + dLoop; d++) {
+							if (typeof printArray[s] !== "undefined" && typeof printArray[d] !== "undefined") {
+								tr = document.createElement("tr");
+
+								var td1 = document.createElement("td");
+								$(table).parent().children("thead").children("tr").children("th:eq(0)").show();
+								if (printArray[1] == "SATASPTA" || printArray[1] == "SATABNR" || printArray[1] == "SPTABNR") {
+									$(td1).remove();
+									$(table).parent().children("thead").children("tr").children("th:eq(0)").hide();
+								} else {
+									td1.innerHTML = printArray[s].toString().replace(".",",")+" "+usonic.powerUnit;
+									tr.appendChild(td1);
+								}
+								
+								var td2 = document.createElement("td");
+								$(table).parent().children("thead").children("tr").children("th:eq(1)").show();
+								if (usonic.pulseUnit == "cont") {
+									$(td2).remove();
+									$(table).parent().children("thead").children("tr").children("th:eq(1)").hide();
+								} else if (dLoop == 1) {
+									td2.innerHTML = printArray[6];
+									tr.appendChild(td2);
+								} else {
+									td2.innerHTML = printArray[d].toString().replace(".",",")+" "+usonic.pulseUnit.replace("u","&micro;");
+									tr.appendChild(td2);
+								}
+								
+								var td3 = document.createElement("td");
+								var td6 = document.createElement("td");
+								if (printArray[1] == "SATASPTA") {
+									var calcISATA = usonic.calcSATASPTA(printArray[s], usonic.ISATAUnit);
+									var expISATA = calcISATA.value;
+									var expISATAUnit = calcISATA.unit;
+									var calcISPTA = usonic.calcSATASPTA(printArray[s+2], usonic.ISPTAUnit);
+									var expISPTA = calcISPTA.value;
+									var expISPTAUnit = calcISPTA.unit;
+									td3.innerHTML = parseFloat(expISATA).toFixed(1).replace(".",",")+" "+expISATAUnit;
+									td6.innerHTML = parseFloat(expISPTA).toFixed(1).replace(".",",")+" "+expISPTAUnit;
+								} else if (printArray[1] == "SATABNR") {
+									var calcISATA = usonic.calcSATASPTA(printArray[s], usonic.ISATAUnit);
+									var expISATA = calcISATA.value;
+									var expISATAUnit = calcISATA.unit;
+									var calcISPTA = usonic.calcSATABNR(expISATA, expISATAUnit, usonic.BNR);
+									var expISPTA = calcISPTA.value;
+									var expISPTAUnit = calcISPTA.unit;
+									td3.innerHTML = parseFloat(expISATA).toFixed(1).replace(".",",")+" "+expISATAUnit;
+									td6.innerHTML = parseFloat(expISPTA).toFixed(1).replace(".",",")+" "+expISPTAUnit;
+								} else if (printArray[1] == "SPTABNR") {
+									var calcISPTA = usonic.calcSATASPTA(printArray[s], usonic.ISPTAUnit);
+									var expISPTA = calcISPTA.value;
+									var expISPTAUnit = calcISPTA.unit;
+									var calcISATA = usonic.calcSPTABNR(expISPTA, expISPTAUnit, usonic.BNR);
+									var expISATA = calcISATA.value;
+									var expISATAUnit = calcISATA.unit;
+									td3.innerHTML = parseFloat(expISATA).toFixed(1).replace(".",",")+" "+expISATAUnit;
+									td6.innerHTML = parseFloat(expISPTA).toFixed(1).replace(".",",")+" "+expISPTAUnit;
+								} else if (printArray[1] == "Power") {
+									var calcISATAISPTA = usonic.calcPower(printArray[s], usonic.powerUnit, printArray[d], usonic.pulseUnit, usonic.AER, usonic.AERUnit, usonic.spotSize, usonic.spotSizeUnit, usonic.spotCount);
+									var expISATA = calcISATAISPTA.ISATA;
+									var expISPTA = calcISATAISPTA.ISPTA;
+									var expUnit = calcISATAISPTA.unit;
+									td3.innerHTML = parseFloat(expISATA).toFixed(1).replace(".",",")+" "+expUnit;
+									td6.innerHTML = parseFloat(expISPTA).toFixed(1).replace(".",",")+" "+expUnit;
+								}
+								tr.appendChild(td3);
+								
+								var td4 = document.createElement("td");
+								td4.innerHTML = "3 W/cm2";
+								tr.appendChild(td4);
+								
+								var td5 = document.createElement("td");
+								var expRatioISATA = (expISATA / 3).toFixed(1);
+								td5.innerHTML = expRatioISATA.replace(".",",")+" x";
+								if (parseFloat(expRatioISATA) > 1) {
+									$(td5).css("color", "red");
+									$(td5).css("font-weight", "bold");
+								} else {
+									$(td5).css("color", "green");
+									$(td5).css("font-weight", "bold");
+								}
+								tr.appendChild(td5);
+								tr.appendChild(td6);
+								
+								var td7 = document.createElement("td");
+								td7.innerHTML = "24 W/cm2";
+								tr.appendChild(td7);
+								
+								var td8 = document.createElement("td");
+								var expRatioISPTA = (expISPTA / 24).toFixed(1);
+								td8.innerHTML = expRatioISPTA.replace(".",",")+" x";
+								if (parseFloat(expRatioISPTA) > 1) {
+									$(td8).css("color", "red");
+									$(td8).css("font-weight", "bold");
+								} else {
+									$(td8).css("color", "green");
+									$(td8).css("font-weight", "bold");
+								}
+								tr.appendChild(td8);
+								$(table).append(tr);
+							}
+						}
+					}
+				}
+			}
+			
+			// read and print user input to results		
+			$(document).find("div[id^=print_]").each(function() {
+				if ($(this).is(":visible")) {
+					var fid = $(this).attr("id");
+					var targetDiv = fid.substring(6, fid.length);
+					var targetLabel = $("label[for=\"input_"+targetDiv+"\"]").text();
+					$(this).append(targetLabel);
+					var targetValue = $("#input_"+targetDiv).val();
+					$(this).append(" "+targetValue);
+					if (($("#unit_"+targetDiv)).is("div")) {
+						$(this).append($("#unit_"+targetDiv).html());
+					} else if (($("#unit_"+targetDiv)).is("select")) {
+						$(this).append(" "+($("#unit_"+targetDiv)).children("option:selected").text());
+					}
+					if ($("#laser_info").is(":visible")) {
+						$(this).clone().appendTo($("#laser_input"));
+					} else if ($("#ipl_info").is(":visible")) {
+						$(this).clone().appendTo($("#ipl_input"));
+					} else if ($("#usonic_info").is(":visible")) {
+						$(this).clone().appendTo($("#usonic_input"));
+					}
+					$(this).html("");
+				}
+			});
+		}
+			
+		// laser, toggles
+		function toggleLaserMode_Changed(element) {
+			var id = element.id;
+			var index = id.slice(id.length - 1);
+			$(element).parent().parent().css("background-color", "#f9f9f9");
+			if ($("#toggleLaser_CW_"+index).is(":checked")) {
+				$("#laser_applicator_shape_"+index).slideUp("slow", function() {
+					$("#laser_energy_"+index).slideUp("slow", function() {
+						$("#laser_power_"+index).slideDown("slow");
+						$("#unit_laser_energy_"+index).val("Jcm2");
+						// reset, optional
+						/*
+						$("#unit_laser_pulsewidth_"+index).val("ms");
+						$("#laser_applicator_round_"+index+","+"#laser_applicator_rectangle_"+index).slideUp("slow");
+						$("#toggleLaser_applicator_round_"+index+","+"#toggleLaser_applicator_rectangle_"+index).prop("checked", false);
+						$("#unit_laser_spotsize_"+index+","+"#unit_laser_aperturewidth_"+index+","+"#unit_laser_apertureheight_"+index).val("mm");
+						$(this).parent().find("input").each(function() {
+							if ((this).id != "input_laser_wavelength_"+index) {
+								$(this).val("");
+							}
+						});
+						*/
+					});
+				});
+			} else {
+				$("#laser_applicator_shape_"+index).slideUp("slow", function() {
+					$("#laser_power_"+index).slideUp("slow", function() {
+						$("#laser_energy_"+index).slideDown("slow");
+						$("#unit_laser_power_"+index).val("Wcm2");
+						// reset, optional
+						/*
+						$("#laser_applicator_round_"+index+","+"#laser_applicator_rectangle_"+index).slideUp("slow");
+						$("#toggleLaser_applicator_round_"+index+","+"#toggleLaser_applicator_rectangle_"+index).prop("checked", false);
+						$("#unit_laser_spotsize_"+index+","+"#unit_laser_aperturewidth_"+index+","+"#unit_laser_apertureheight_"+index).val("mm");
+						*/
+					});
+				});
+			}
+		}
+		
+		function toggleLaserShape_Changed(id) {
+			var index = id.slice(id.length - 1);
+			$("#"+id).parent().parent().css("background-color", "#f9f9f9");
+			if ($("#toggleLaser_applicator_round_"+index).is(":checked")) {
+				$("#laser_applicator_rectangle_"+index).slideUp("slow", function() {
+					$("#laser_applicator_round_"+index).slideDown("slow");
+				});
+			} else {
+				$("#laser_applicator_round_"+index).slideUp("slow", function() {
+					$("#laser_applicator_rectangle_"+index).slideDown("slow");
+				});
+			}
+		}
+		
+		function laserUnit_Changed(element) {
+			var index = $(element).attr("id").slice($(element).attr("id").length - 1);
+			if (($(element).val() != "Wcm2") && ($(element).val() != "Jcm2")) {
+				$("#laser_applicator_shape_"+index).slideDown("slow");
+			} else {
+				$("#laser_applicator_shape_"+index).slideUp("slow");
+			}
+		}
+		
+		// IPL, toggles	
+		function iplUnit_Changed(element) {
+			if (($(element).val() != "Jm2") && ($(element).val() != "Jcm2")) {
+				$("#ipl_fluence_alt").slideDown("slow");
+			} else {
+				$("#ipl_fluence_alt").slideUp("slow");
+			}
+		}
+		
+		function toggleIPLShape_Changed(id) {
+			$("#"+id).parent().parent().css("background-color", "#f9f9f9");
+			if ($("#toggleIPL_applicator_round").is(":checked")) {
+				$("#ipl_applicator_rectangle").slideUp("slow", function() {
+					$("#ipl_applicator_round").slideDown("slow");
+				});
+			} else {
+				$("#ipl_applicator_round").slideUp("slow", function() {
+					$("#ipl_applicator_rectangle").slideDown("slow");
+				});
+			}
+		}
+		
+		// ultrasound, toggles
+		function toggleUSSpecs_Changed(id) {
+			$("#"+id).parent().parent().css("background-color", "#f9f9f9");
+			if ($("#toggleUS_ISATA_ISPTA").is(":checked")) {
+				$("#usonic_intensity_alt").slideUp("slow", function() {
+					$("#usonic_BNR").slideUp("slow", function() {
+						$("#usonic_ISATA, #usonic_ISPTA").slideDown("slow");
+						// reset, optional
+						/*
+						$("#input_usonic_BNR").val("");
+						$("#usonic_intensity_alt").find("input").each(function() {
+							$(this).val("");
+						});
+						$("#unit_usonic_power").val("W");
+						$("#unit_usonic_pulsewidth").val("ms");
+						$("#unit_usonic_AER").val("cm2");
+						$("#unit_usonic_spotsize").val("mm");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						$("#usonic_pulsewidth, #usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow");
+						*/
+					});
+				});
+			} else if ($("#toggleUS_ISATA_BNR").is(":checked")) {
+				$("#usonic_intensity_alt").slideUp("slow", function() {
+					$("#usonic_ISPTA").slideUp("slow", function() {
+						$("#usonic_ISATA, #usonic_BNR").slideDown("slow");
+						//reset, optional
+						/*
+						$("#input_usonic_ISPTA").val("");
+						$("#unit_usonic_ISPTA").val("Wcm2");
+						$("#usonic_intensity_alt").find("input").each(function() {
+							$(this).val("");
+						});
+						$("#unit_usonic_power").val("W");
+						$("#unit_usonic_pulsewidth").val("ms");
+						$("#unit_usonic_AER").val("cm2");
+						$("#unit_usonic_spotsize").val("mm");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						$("#usonic_pulsewidth, #usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow");
+						*/
+					});
+				});
+			} else if ($("#toggleUS_ISPTA_BNR").is(":checked")) {
+				$("#usonic_intensity_alt").slideUp("slow", function() {
+					$("#usonic_ISATA").slideUp("slow", function() {
+						$("#usonic_ISPTA, #usonic_BNR").slideDown("slow");
+						// reset, optional
+						/*
+						$("#input_usonic_ISATA").val("");
+						$("#unit_usonic_ISATA").val("Wcm2");
+						$("#usonic_intensity_alt").find("input").each(function() {
+							$(this).val("");
+						});
+						$("#unit_usonic_power").val("W");
+						$("#unit_usonic_pulsewidth").val("ms");
+						$("#unit_usonic_AER").val("cm2");
+						$("#unit_usonic_spotsize").val("mm");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						$("#usonic_pulsewidth, #usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow");
+						*/
+					});
+				});					
+			} else if ($("#toggleUS_nothing").is(":checked")) {
+				$("#usonic_ISPTA, #usonic_BNR").slideUp("slow", function() {
+					$("#usonic_ISATA").slideUp("slow", function() {
+						$("#usonic_intensity_alt").slideDown("slow");
+						// reset, optional
+						/*
+						$("#input_usonic_ISATA").val("");
+						$("#unit_usonic_ISATA").val("Wcm2");
+						$("#input_usonic_ISPTA").val("");
+						$("#unit_usonic_ISPTA").val("Wcm2");
+						$("#input_usonic_BNR").val("");
+						*/
+					});
+				});					
+			}
+		}
+		
+		function toggleUSMode_Changed(element) {
+			$(element).parent().parent().css("background-color", "#f9f9f9");
+			if ($("#toggleUS_CW").is(":checked")) {
+				$("#usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow", function() {
+					$("#usonic_energy, #usonic_pulsewidth").slideUp("slow", function() {
+						$("#usonic_power, #usonic_type").slideDown("slow");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						// reset, optional
+						/*
+						$("#usonic_intensity_alt").find("input").each(function() {
+							$(this).val("");
+						});
+						$("#unit_usonic_energy").val("W");
+						$("#unit_usonic_pulsewidth").val("ms");
+						$("#unit_usonic_AER").val("cm2");
+						$("#unit_usonic_spotsize").val("mm");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						$("#usonic_pulsewidth, #usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow");
+						*/
+					});
+				});
+			} else {
+				$("#usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow", function() {
+					$("#usonic_power").slideUp("slow", function() {
+						$("#usonic_energy, #usonic_pulsewidth, #usonic_type").slideDown("slow");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						// reset, optional
+						/*
+						$("#usonic_intensity_alt").find("input").each(function() {
+							$(this).val("");
+						});
+						$("#unit_usonic_power").val("W");
+						$("#unit_usonic_pulsewidth").val("ms");
+						$("#unit_usonic_AER").val("cm2");
+						$("#unit_usonic_spotsize").val("mm");
+						$("#toggleUS_HIFU, #toggleUS_other").prop("checked", false);
+						$("#usonic_AER, #usonic_spotsize, #usonic_spotcount").slideUp("slow");
+						*/
+					});
+				});
+			}
+		}
+		
+		function toggleUSType_Changed(id) {
+			$("#"+id).parent().parent().css("background-color", "#f9f9f9");
+			if ($("#toggleUS_HIFU").is(":checked")) {
+				$("#usonic_AER, #usonic_spotsize, #usonic_spotcount").slideDown("slow");
+			} else if ($("#toggleUS_other").is(":checked")) {
+				$("#usonic_spotsize, #usonic_spotcount").slideUp("slow");
+				$("#usonic_AER").slideDown("slow");
+			}
+		}
+		
+		// laser, add wavelength
+		$(document).on("click", ".addLaserWL", function() {
+			var lastWL=$("#laser_info").find(".laserWL_placeholder:last");
+			var clonedWL=$(this).parent().parent();
+			var clone=clonedWL.clone();
+			var id = $("#laser_info .laserWL_placeholder").length;
+			$(clone).find("label").each(function() {
+				$(this).attr("for",$(this).attr("for").replace(/.$/,id));
+			});
+			$(clone).find("input").each(function() {
+				$(this).attr("name",$(this).attr("name").replace(/.$/,id));
+				$(this).attr("id",$(this).attr("id").replace(/.$/,id));
+				$(this).val("");
+			});
+			$(clone).find("select").each(function() {
+				$(this).attr("name",$(this).attr("name").replace(/.$/,id));
+				$(this).attr("id",$(this).attr("id").replace(/.$/,id));
+				var selects = $(clonedWL).find("select");
+					$(selects).each(function(i) {
+					var select = this;
+					$(clone).find("select").eq(i).val($(select).val());
+				});
+			});
+			$(clone).find("div[id], table").each(function() {
+				$(this).attr("id",$(this).attr("id").replace(/.$/,id));
+			});
+			$(clone).css("display", "none");
+			$(clone).insertAfter(lastWL);
+			$(".deleteLaserWL").fadeIn();
+			$(clone).slideDown("slow", function () {
+				$(clone)[0].scrollIntoView({behavior: "smooth"});
+			});
+		});
+		
+		// laser, remove wavelength
+		$(document).on("click", ".deleteLaserWL", function() {
+			var numWL = $(".laserWL_placeholder").length;
+			if (numWL > 1) {
+				$(this).parent().parent().slideUp("slow", function() {
+					$(this).remove();
+					numWL -= 1;
+					if (numWL == 1) {
+						$(".deleteLaserWL").fadeOut();
+					}
+					var WL = $(".laserWL_placeholder");
+					$.each($(WL), function(index, value) {
+						$(this).find("label").each(function() {
+							$(this).attr("for",$(this).attr("for").replace(/.$/,index));
+						});
+						$(this).find("input, select").each(function() {
+							$(this).attr("name",$(this).attr("name").replace(/.$/,index));
+							$(this).attr("id",$(this).attr("id").replace(/.$/,index));
+						});
+						$(this).find("div[id], table").each(function() {
+							$(this).attr("id",$(this).attr("id").replace(/.$/,index));
+						});
+						$(this)[0].scrollIntoView({behavior: "smooth"});
+					});
+				});
+			}
+		});
+		
+		// laser, sliders
+		var sld_laser_power = document.getElementById("slider_laser_tryit_power");
+		$("#input_laser_tryit_power").val(sld_laser_power.value.replace(".", ","));
+		var sld_laser_duration = document.getElementById("slider_laser_tryit_duration");
+		$("#input_laser_tryit_duration").val(sld_laser_duration.value.replace(".", ","));
+		var sld_laser_spotsize = document.getElementById("slider_laser_tryit_spotsize");
+		$("#input_laser_tryit_spotsize").val(sld_laser_spotsize.value.replace(".", ","));
+
+		sld_laser_power.oninput = function() {
+			reCalc_laser_tryit();
+			$("#input_laser_tryit_power").val(this.value.replace(".", ","));
+		}
+		$("#input_laser_tryit_power").on("focusout", function(){
+			$("#slider_laser_tryit_power").val($(this).val().replace(",", "."))
+			if (parseFloat($(this).val()) < $("#slider_laser_tryit_power").prop("min")) {
+				$(this).val($("#slider_laser_tryit_power").prop("min"));
+			}
+			if (parseFloat($(this).val()) > $("#slider_laser_tryit_power").prop("max")) {
+				$(this).val($("#slider_laser_tryit_power").prop("max"));
+			}
+			if ($(this).val() != 0 && $(this).val() != "0," && $(this).val() != "0,0") {
+				reCalc_laser_tryit();
+			} else {
+				$("#result_laser_tryit_limit, #result_laser_tryit_exposure, #result_laser_tryit_ratio").html("");
+			}
+		});
+		
+		sld_laser_duration.oninput = function() {
+			reCalc_laser_tryit();
+			$("#input_laser_tryit_duration").val(this.value.replace(".", ","));
+		}
+		$("#input_laser_tryit_duration").on("focusout", function(){	
+			$("#slider_laser_tryit_duration").val($(this).val().replace(",", "."))
+			if (parseFloat($(this).val()) < $("#slider_laser_tryit_duration").prop("min")) {
+				$(this).val($("#slider_laser_tryit_duration").prop("min"));
+			}
+			if (parseFloat($(this).val()) > $("#slider_laser_tryit_duration").prop("max")) {
+				$(this).val($("#slider_laser_tryit_duration").prop("max"));
+			}
+			if ($(this).val() != 0 && $(this).val() != "0," && $(this).val() != "0,0") {
+				reCalc_laser_tryit();
+			} else {
+				$("#result_laser_tryit_limit, #result_laser_tryit_exposure, #result_laser_tryit_ratio").html("");
+			}
+		});
+		
+		sld_laser_spotsize.oninput = function() {
+			reCalc_laser_tryit();
+			$("#input_laser_tryit_spotsize").val(this.value.replace(".", ","));
+		}
+		$("#input_laser_tryit_spotsize").on("focusout", function(){
+			$("#slider_laser_tryit_spotsize").val($(this).val().replace(",", "."))
+			if (parseFloat($(this).val()) < $("#slider_laser_tryit_spotsize").prop("min")) {
+				$(this).val($("#slider_laser_tryit_spotsize").prop("min"));
+			}
+			if (parseFloat($(this).val()) > $("#slider_laser_tryit_spotsize").prop("max")) {
+				$(this).val($("#slider_laser_tryit_spotsize").prop("max"));
+			}
+			if ($(this).val() != 0 && $(this).val() != "0," && $(this).val() != "0,0") {
+				reCalc_laser_tryit();
+			} else {
+				$("#result_laser_tryit_limit, #result_laser_tryit_exposure, #result_laser_tryit_ratio").html("");
+			}
+		});
+		
+		function reCalc_laser_tryit() {
+			var selectedWL = $("#select_laser_tryit_wavelength").prop("selectedIndex");
+			if ($("#input_laser_tryit_power").is(":visible")) {
+				var power = $("#slider_laser_tryit_power").val();
+			} else {
+				var power = WL.lasers[selectedWL].powerMin;
+			}
+			if ($("#input_laser_tryit_duration").is(":visible")) {
+				var duration = $("#slider_laser_tryit_duration").val();
+			} else {
+				var duration = WL.lasers[selectedWL].pulseMin;
+			}
+			if ($("#input_laser_tryit_spotsize").is(":visible")) {
+				WL.lasers[selectedWL].area = WL.lasers[selectedWL].calcSpotAreaRound($("#slider_laser_tryit_spotsize").val(), WL.lasers[selectedWL].spotUnit).value;
+			}
+			var limit = WL.lasers[selectedWL].calcLaserExpLimit(WL.lasers[selectedWL].wavelength, duration, WL.lasers[selectedWL].pulseUnit);
+			var exposure = WL.lasers[selectedWL].calcExp(power, WL.lasers[selectedWL].powerUnit, duration, WL.lasers[selectedWL].pulseUnit, limit.unit, WL.lasers[selectedWL].area, WL.lasers[selectedWL].spotShapeCF);
+			var ratio = exposure.value / limit.value;
+			$("#result_laser_tryit_limit").html(limit.value.toFixed(0) + " " + limit.unit);
+			$("#result_laser_tryit_exposure").html(exposure.value.toFixed(0) + " " + exposure.unit);
+			$("#result_laser_tryit_ratio").html(ratio.toFixed(1).replace(".", ",") + " x");
+			if (parseFloat(ratio) > 1) {
+				$("#result_laser_tryit_ratio").css("color", "red");
+				$("#result_laser_tryit_ratio").css("font-weight", "bold");
+			} else {
+				$("#result_laser_tryit_ratio").css("color", "green");
+				$("#result_laser_tryit_ratio").css("font-weight", "bold");
+			}
+		}
+		
+		function set_laserSliders(index) {
+			$("#table_laser_tryit").children("tbody").children("tr").children("td:eq(0)").html($("#select_laser_tryit_wavelength").children("option:selected").val() + " nm");
+			if (WL.lasers[index].powerMax == undefined && WL.lasers[index].pulseMax == undefined && WL.lasers[index].spotMax == undefined) {
+				$("#laser_tryit_sliders").hide();
+				$("#laser_tryit_results").hide();
+				$("#laser_no_settings").show();
+			}
+			else {
+				$("#laser_no_settings").hide();
+				$("#laser_tryit_sliders").show();
+				$("#laser_tryit_results").show();
+				if (WL.lasers[index].powerMax !== undefined) {
+					$("#laser_tryit_power").show();
+					$("#input_laser_tryit_power").show();
+					$("#slider_laser_tryit_power").prop("min", WL.lasers[index].powerMin);
+					$("#slider_laser_tryit_power").prop("max", WL.lasers[index].powerMax);
+					$("#slider_laser_tryit_power").val(WL.lasers[index].powerMin);
+					$("#input_laser_tryit_power").val(WL.lasers[index].powerMin.replace(".", ","));
+					$("#unit_laser_tryit_power").html(" " + WL.lasers[index].powerUnit);
+				} else {
+					$("#laser_tryit_power").hide();
+					$("#input_laser_tryit_power").hide();
+					$("#unit_laser_tryit_power").html(WL.lasers[index].powerMin + " " + WL.lasers[index].powerUnit);
+				}
+				if (WL.lasers[index].pulseUnit == "cont") {
+					$("#laser_tryit_duration").hide();
+					$("#input_laser_tryit_duration").hide();
+					$("#unit_laser_tryit_duration").html("Jatkuva");
+				} else if (WL.lasers[index].pulseMax !== undefined) {
+					$("#laser_tryit_duration").show();
+					$("#input_laser_tryit_duration").show();
+					$("#slider_laser_tryit_duration").prop("min", WL.lasers[index].pulseMin);
+					$("#slider_laser_tryit_duration").prop("max", WL.lasers[index].pulseMax);
+					$("#slider_laser_tryit_duration").val(WL.lasers[index].pulseMin);
+					$("#input_laser_tryit_duration").val(WL.lasers[index].pulseMin.replace(".", ","));
+					$("#unit_laser_tryit_duration").html(" " + WL.lasers[index].pulseUnit);
+				} else {
+					$("#laser_tryit_duration").hide();
+					$("#input_laser_tryit_duration").hide();
+					$("#unit_laser_tryit_duration").html(WL.lasers[index].pulseMin + " " + WL.lasers[index].pulseUnit);
+				}
+				if (WL.lasers[index].spotW !== undefined && WL.lasers[index].spotH !== undefined) {
+					$("#laser_tryit_spotsize").hide();
+					$("#input_laser_tryit_spotsize").hide();
+					$("#unit_laser_tryit_spotsize").html(WL.lasers[index].spotW.replace(".",",")+" "+WL.lasers[index].spotWUnit+" * "+WL.lasers[index].spotH.replace(".",",")+" "+WL.lasers[index].spotHUnit);
+				} else if (WL.lasers[index].spotMax !== undefined) {
+					$("#laser_tryit_spotsize").show();
+					$("#input_laser_tryit_spotsize").show();
+					$("#slider_laser_tryit_spotsize").prop("min", WL.lasers[index].spotMin);
+					$("#slider_laser_tryit_spotsize").prop("max", WL.lasers[index].spotMax);
+					$("#slider_laser_tryit_spotsize").val(WL.lasers[index].spotMin);
+					$("#input_laser_tryit_spotsize").val(WL.lasers[index].spotMin.replace(".", ","));
+					$("#unit_laser_tryit_spotsize").html(" " + WL.lasers[index].spotUnit);
+				} else if (WL.lasers[index].spotMin !== undefined) {
+					$("#laser_tryit_spotsize").hide();
+					$("#input_laser_tryit_spotsize").hide();
+					$("#unit_laser_tryit_spotsize").html(WL.lasers[index].spotMin + " " + WL.lasers[index].spotUnit);
+				} else {
+					$("#laser_tryit_spotsize").hide();
+					$("#input_laser_tryit_spotsize").hide();
+					$("#unit_laser_tryit_spotsize").html("N/A");
+				}
+			}
+			reCalc_laser_tryit();
+		}
+		
+		$("#select_laser_tryit_wavelength").change(function() {
+			$("#laser_tryit").slideUp("slow", function() {
+				var selectedWL = $("#select_laser_tryit_wavelength").prop("selectedIndex");
+				set_laserSliders(selectedWL);
+				$("#laser_tryit").slideDown("slow");
+			});
+		});
+		
+		// ipl, sliders
+		var sld_ipl_power = document.getElementById("slider_ipl_tryit_power");
+		$("#input_ipl_tryit_power").val(sld_ipl_power.value.replace(".", ","));
+		var sld_ipl_duration = document.getElementById("slider_ipl_tryit_duration");
+		$("#input_ipl_tryit_duration").val(sld_ipl_duration.value.replace(".", ","));
+
+		sld_ipl_power.oninput = function() {
+			reCalc_ipl_tryit();
+			$("#input_ipl_tryit_power").val(this.value.replace(".", ","));
+		}
+		$("#input_ipl_tryit_power").on("focusout", function(){
+			$("#slider_ipl_tryit_power").val($(this).val().replace(",", "."))
+			if (parseFloat($(this).val()) < $("#slider_ipl_tryit_power").prop("min")) {
+				$(this).val($("#slider_ipl_tryit_power").prop("min"));
+			}
+			if (parseFloat($(this).val()) > $("#slider_ipl_tryit_power").prop("max")) {
+				$(this).val($("#slider_ipl_tryit_power").prop("max"));
+			}
+			if ($(this).val() != 0 && $(this).val() != "0," && $(this).val() != "0,0") {
+				reCalc_ipl_tryit();
+			} else {
+				$("#result_ipl_tryit_limit, #result_ipl_tryit_exposure, #result_ipl_tryit_ratio").html("");
+			}
+		});
+		
+		sld_ipl_duration.oninput = function() {
+			reCalc_ipl_tryit();
+			$("#input_ipl_tryit_duration").val(this.value.replace(".", ","));
+		}
+		$("#input_ipl_tryit_duration").on("focusout", function(){	
+			$("#slider_ipl_tryit_duration").val($(this).val().replace(",", "."))
+			if (parseFloat($(this).val()) < $("#slider_ipl_tryit_duration").prop("min")) {
+				$(this).val($("#slider_ipl_tryit_duration").prop("min"));
+			}
+			if (parseFloat($(this).val()) > $("#slider_ipl_tryit_duration").prop("max")) {
+				$(this).val($("#slider_ipl_tryit_duration").prop("max"));
+			}
+			if ($(this).val() != 0 && $(this).val() != "0," && $(this).val() != "0,0") {
+				reCalc_ipl_tryit();
+			} else {
+				$("#result_ipl_tryit_limit, #result_ipl_tryit_exposure, #result_ipl_tryit_ratio").html("");
+			}
+		});
+		
+		function reCalc_ipl_tryit() {
+			if ($("#input_ipl_tryit_power").is(":visible")) {
+				var power = $("#slider_ipl_tryit_power").val();
+			} else {
+				var power = ipl.energyMin;
+			}
+			if ($("#input_ipl_tryit_duration").is(":visible")) {
+				var duration = $("#slider_ipl_tryit_duration").val();
+			} else {
+				var duration = ipl.pulseMin;
+			}
+			var limit = ipl.calcExpLimit(duration, ipl.pulseUnit);
+			var exposure = ipl.calcExp(power, ipl.energyUnit, ipl.area);
+			var ratio = exposure.value / limit.value;
+			$("#result_ipl_tryit_limit").html(limit.value.toFixed(0) + " " + limit.unit);
+			$("#result_ipl_tryit_exposure").html(exposure.value.toFixed(0) + " " + exposure.unit);
+			$("#result_ipl_tryit_ratio").html(ratio.toFixed(1).replace(".", ",") + " x");
+			if (parseFloat(ratio) > 1) {
+				$("#result_ipl_tryit_ratio").css("color", "red");
+				$("#result_ipl_tryit_ratio").css("font-weight", "bold");
+			} else {
+				$("#result_ipl_tryit_ratio").css("color", "green");
+				$("#result_ipl_tryit_ratio").css("font-weight", "bold");
+			}
+		}
+		
+		function set_iplSliders() {
+			if (ipl.energyMax == undefined && ipl.pulseMax == undefined) {
+				$("#ipl_tryit_sliders").hide();
+				$("#ipl_tryit_results").hide();
+				$("#ipl_no_settings").show();
+			}
+			else {
+				$("#ipl_no_settings").hide();
+				$("#ipl_tryit_sliders").show();
+				$("#ipl_tryit_results").show();
+				if (ipl.energyMax !== undefined) {
+					$("#ipl_tryit_power").show();
+					$("#input_ipl_tryit_power").show();
+					$("#slider_ipl_tryit_power").prop("min", ipl.energyMin);
+					$("#slider_ipl_tryit_power").prop("max", ipl.energyMax);
+					$("#slider_ipl_tryit_power").val(ipl.energyMin);
+					$("#input_ipl_tryit_power").val(ipl.energyMin.replace(".", ","));
+					$("#unit_ipl_tryit_power").html(" " + ipl.energyUnit);
+				} else {
+					$("#ipl_tryit_power").hide();
+					$("#input_ipl_tryit_power").hide();
+					$("#unit_ipl_tryit_power").html(ipl.energyMin + " " + ipl.energyUnit);
+				}
+				if (ipl.pulseMax !== undefined) {
+					$("#ipl_tryit_duration").show();
+					$("#input_ipl_tryit_duration").show();
+					$("#slider_ipl_tryit_duration").prop("min", ipl.pulseMin);
+					$("#slider_ipl_tryit_duration").prop("max", ipl.pulseMax);
+					$("#slider_ipl_tryit_duration").val(ipl.pulseMin);
+					$("#input_ipl_tryit_duration").val(ipl.pulseMin.replace(".", ","));
+					$("#unit_ipl_tryit_duration").html(" " + ipl.pulseUnit);
+				} else {
+					$("#ipl_tryit_duration").hide();
+					$("#input_ipl_tryit_duration").hide();
+					$("#unit_ipl_tryit_duration").html(ipl.pulseMin + " " + ipl.pulseUnit);
+				}
+			}
+			reCalc_ipl_tryit();
+		}
+		
+		</script>
+		
+	</body>
+
+</html>
