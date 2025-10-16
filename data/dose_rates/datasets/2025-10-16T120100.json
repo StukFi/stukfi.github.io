@@ -1,0 +1,1 @@
+{"crs":{"properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"},"type":"name"},"features":[{"geometry":{"coordinates":[25.9372,60.496],"type":"Point"},"properties":{"doseRate":0.184,"id":"103182","site":"Pernaja","timestamp":"2025-10-16T12:01:00Z"},"type":"Feature"}],"name":"stuk_open_data_dose_rates","type":"FeatureCollection"}
